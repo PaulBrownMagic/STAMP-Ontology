@@ -1,0 +1,583 @@
+@prefix : <http://www.owlsai.com/ontologies/interlock#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sit: <http://www.owlsai.com/ontologies/situation#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix csys: <http://www.owlsai.com/ontologies/controlsystem#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ttop: <http://www.owlsai.com/ontologies/tinytop#> .
+@prefix stamp: <http://www.owlsai.com/ontologies/stamp#> .
+@prefix interlock: <http://www.owlsai.com/ontologies/interlock#> .
+@base <http://www.owlsai.com/ontologies/interlock> .
+
+<http://www.owlsai.com/ontologies/interlock> rdf:type owl:Ontology ;
+                                              owl:imports <http://www.owlsai.com/ontologies/stamp> ;
+                                              <http://purl.org/dc/terms/abstract> "An educational example from \"Engineeering a Safer World\" by Nancy G. Leveson to demonstrate using the STAMP ontology."@en ;
+                                              <http://purl.org/dc/terms/created> "2020-02-06" ;
+                                              <http://purl.org/dc/terms/creator> <http://www.paulbrownmagic.com/foaf#me> ;
+                                              <http://purl.org/dc/terms/license> <https://mit-license.org/> ;
+                                              <http://purl.org/dc/terms/title> "Interlock Example STPA Analysis"@en ;
+                                              <http://purl.org/vocab/vann/preferredNamespacePrefix> "interlock"@en ;
+                                              <http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.owlsai.com/ontologies/interlock#"@en ;
+                                              rdfs:comment "A STAMP model developed via STPA for an interlock system"@en ;
+                                              owl:versionIRI <http://www.w3.org/2002/07/owl> ;
+                                              owl:versionInfo "1.0.0" .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.owlsai.com/ontologies/interlock#CloseDoor
+interlock:CloseDoor rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( csys:ControlAction
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty csys:isRealizedIn ;
+                                                                 owl:someValuesFrom [ owl:intersectionOf ( ttop:Process
+                                                                                                           [ rdf:type owl:Restriction ;
+                                                                                                             owl:onProperty sit:isPossibleIn ;
+                                                                                                             owl:someValuesFrom [ owl:intersectionOf ( sit:Situation
+                                                                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                                                                         owl:onProperty sit:hasHolding ;
+                                                                                                                                                         owl:someValuesFrom interlock:DoorOpen
+                                                                                                                                                       ]
+                                                                                                                                                     ) ;
+                                                                                                                                  rdf:type owl:Class
+                                                                                                                                ]
+                                                                                                           ]
+                                                                                                         ) ;
+                                                                                      rdf:type owl:Class
+                                                                                    ]
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty stamp:requestsToHold ;
+                                                                 owl:someValuesFrom interlock:DoorClosed
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty stamp:requestsToNotHold ;
+                                                                 owl:someValuesFrom interlock:DoorOpen
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty ttop:capabilityOf ;
+                                                                 owl:someValuesFrom interlock:HumanOperator
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#ClosedPosition
+interlock:ClosedPosition rdf:type owl:Class ;
+                         rdfs:subClassOf interlock:Position ;
+                         owl:disjointWith interlock:OpenPosition .
+
+
+###  http://www.owlsai.com/ontologies/interlock#Door
+interlock:Door rdf:type owl:Class ;
+               rdfs:subClassOf ttop:Entity .
+
+
+###  http://www.owlsai.com/ontologies/interlock#DoorClosed
+interlock:DoorClosed rdf:type owl:Class ;
+                     owl:equivalentClass [ owl:intersectionOf ( interlock:DoorPositionFluent
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                  owl:someValuesFrom interlock:ClosedPosition
+                                                                ]
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty sit:holdsIn ;
+                                                                  owl:someValuesFrom interlock:DoorClosedPowerOff
+                                                                ]
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty sit:holdsIn ;
+                                                                  owl:someValuesFrom interlock:SC-2
+                                                                ]
+                                                                [ rdf:type owl:Restriction ;
+                                                                  owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                  owl:allValuesFrom interlock:ClosedPosition
+                                                                ]
+                                                              ) ;
+                                           rdf:type owl:Class
+                                         ] ;
+                     owl:disjointWith interlock:DoorOpen .
+
+
+###  http://www.owlsai.com/ontologies/interlock#DoorClosedPowerOff
+interlock:DoorClosedPowerOff rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( sit:Situation
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasHolding ;
+                                                                          owl:someValuesFrom interlock:DoorClosed
+                                                                        ]
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasHolding ;
+                                                                          owl:someValuesFrom interlock:PowerSourceOff
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#DoorOpen
+interlock:DoorOpen rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( interlock:DoorPositionFluent
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                owl:someValuesFrom interlock:OpenPosition
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty sit:holdsIn ;
+                                                                owl:someValuesFrom interlock:H-1
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty sit:holdsIn ;
+                                                                owl:someValuesFrom interlock:SC-1
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                owl:allValuesFrom interlock:OpenPosition
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#DoorPositionFluent
+interlock:DoorPositionFluent rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( csys:SystemQuality
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasBearer ;
+                                                                          owl:someValuesFrom interlock:Door
+                                                                        ]
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                          owl:someValuesFrom interlock:Position
+                                                                        ]
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasBearer ;
+                                                                          owl:allValuesFrom interlock:Door
+                                                                        ]
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                          owl:allValuesFrom interlock:Position
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             owl:disjointWith interlock:PowerStatusFluent .
+
+
+###  http://www.owlsai.com/ontologies/interlock#DoorPositionObservation
+interlock:DoorPositionObservation rdf:type owl:Class ;
+                                  owl:equivalentClass [ owl:intersectionOf ( csys:Feedback
+                                                                             [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty stamp:recordsFluent ;
+                                                                               owl:someValuesFrom interlock:DoorPositionFluent
+                                                                             ]
+                                                                           ) ;
+                                                        rdf:type owl:Class
+                                                      ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#H-1
+interlock:H-1 rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( stamp:Hazard
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty sit:hasHolding ;
+                                                           owl:someValuesFrom interlock:DoorOpen
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty sit:hasHolding ;
+                                                           owl:someValuesFrom interlock:PowerSourceOn
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty sit:hasPossible ;
+                                                           owl:someValuesFrom interlock:L-1
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:label "Power Source is On and the Door is Open"@en .
+
+
+###  http://www.owlsai.com/ontologies/interlock#HumanOperator
+interlock:HumanOperator rdf:type owl:Class ;
+                        rdfs:subClassOf ttop:Entity ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty csys:receivesFeedback ;
+                                          owl:someValuesFrom interlock:DoorPositionObservation
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty ttop:hasCapability ;
+                                          owl:someValuesFrom interlock:CloseDoor
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty ttop:hasCapability ;
+                                          owl:someValuesFrom interlock:OpenDoor
+                                        ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#Interlock
+interlock:Interlock rdf:type owl:Class ;
+                    rdfs:subClassOf ttop:Entity ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty csys:hasComponent ;
+                                      owl:someValuesFrom interlock:Door
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty csys:hasComponent ;
+                                      owl:someValuesFrom interlock:PowerController
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty csys:hasComponent ;
+                                      owl:someValuesFrom interlock:PowerSource
+                                    ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#L-1
+interlock:L-1 rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( stamp:Loss
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty sit:isPossibleIn ;
+                                                           owl:someValuesFrom interlock:H-1
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:label "Loss of life or injury to people"@en .
+
+
+###  http://www.owlsai.com/ontologies/interlock#Maintenance
+interlock:Maintenance rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( stamp:ControlledProcess
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty stamp:hasSubject ;
+                                                                   owl:someValuesFrom interlock:Door
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty stamp:hasSubject ;
+                                                                   owl:someValuesFrom interlock:PowerSource
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#OpenDoor
+interlock:OpenDoor rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( csys:ControlAction
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty csys:isRealizedIn ;
+                                                                owl:someValuesFrom [ owl:intersectionOf ( ttop:Process
+                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                            owl:onProperty sit:isPossibleIn ;
+                                                                                                            owl:someValuesFrom [ owl:intersectionOf ( sit:Situation
+                                                                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                                                                        owl:onProperty sit:hasHolding ;
+                                                                                                                                                        owl:someValuesFrom interlock:DoorClosed
+                                                                                                                                                      ]
+                                                                                                                                                    ) ;
+                                                                                                                                 rdf:type owl:Class
+                                                                                                                               ]
+                                                                                                          ]
+                                                                                                        ) ;
+                                                                                     rdf:type owl:Class
+                                                                                   ]
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty stamp:requestsToHold ;
+                                                                owl:someValuesFrom interlock:DoorOpen
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty stamp:requestsToNotHold ;
+                                                                owl:someValuesFrom interlock:DoorClosed
+                                                              ]
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty ttop:capabilityOf ;
+                                                                owl:someValuesFrom interlock:HumanOperator
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#OpenPosition
+interlock:OpenPosition rdf:type owl:Class ;
+                       rdfs:subClassOf interlock:Position .
+
+
+###  http://www.owlsai.com/ontologies/interlock#Position
+interlock:Position rdf:type owl:Class ;
+                   rdfs:subClassOf ttop:Quality ;
+                   owl:disjointWith interlock:PowerStatus .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerController
+interlock:PowerController rdf:type owl:Class ;
+                          rdfs:subClassOf ttop:Entity ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty csys:receivesFeedback ;
+                                            owl:someValuesFrom interlock:PowerSourceStatusObservation
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty ttop:hasCapability ;
+                                            owl:someValuesFrom interlock:TurnOffPower
+                                          ] ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty ttop:hasCapability ;
+                                            owl:someValuesFrom interlock:TurnOnPower
+                                          ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerOff
+interlock:PowerOff rdf:type owl:Class ;
+                   rdfs:subClassOf interlock:PowerStatus ;
+                   owl:disjointWith interlock:PowerOn .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerOn
+interlock:PowerOn rdf:type owl:Class ;
+                  rdfs:subClassOf interlock:PowerStatus .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerSource
+interlock:PowerSource rdf:type owl:Class ;
+                      rdfs:subClassOf ttop:Entity .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerSourceOff
+interlock:PowerSourceOff rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( interlock:PowerStatusFluent
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                      owl:someValuesFrom interlock:PowerOff
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty sit:holdsIn ;
+                                                                      owl:someValuesFrom interlock:DoorClosedPowerOff
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty sit:holdsIn ;
+                                                                      owl:someValuesFrom interlock:SC-1
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                      owl:allValuesFrom interlock:PowerOff
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] ;
+                         owl:disjointWith interlock:PowerSourceOn .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerSourceOn
+interlock:PowerSourceOn rdf:type owl:Class ;
+                        owl:equivalentClass [ owl:intersectionOf ( interlock:PowerStatusFluent
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                     owl:someValuesFrom interlock:PowerOn
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty sit:holdsIn ;
+                                                                     owl:someValuesFrom interlock:H-1
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty sit:holdsIn ;
+                                                                     owl:someValuesFrom interlock:SC-2
+                                                                   ]
+                                                                   [ rdf:type owl:Restriction ;
+                                                                     owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                     owl:allValuesFrom interlock:PowerOn
+                                                                   ]
+                                                                 ) ;
+                                              rdf:type owl:Class
+                                            ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerSourceStatusObservation
+interlock:PowerSourceStatusObservation rdf:type owl:Class ;
+                                       owl:equivalentClass [ owl:intersectionOf ( csys:Feedback
+                                                                                  [ rdf:type owl:Restriction ;
+                                                                                    owl:onProperty stamp:recordsFluent ;
+                                                                                    owl:someValuesFrom interlock:PowerStatusFluent
+                                                                                  ]
+                                                                                ) ;
+                                                             rdf:type owl:Class
+                                                           ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerStatus
+interlock:PowerStatus rdf:type owl:Class ;
+                      rdfs:subClassOf ttop:Quality .
+
+
+###  http://www.owlsai.com/ontologies/interlock#PowerStatusFluent
+interlock:PowerStatusFluent rdf:type owl:Class ;
+                            owl:equivalentClass [ owl:intersectionOf ( csys:SystemQuality
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty sit:hasBearer ;
+                                                                         owl:someValuesFrom interlock:PowerSource
+                                                                       ]
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                         owl:someValuesFrom interlock:PowerStatus
+                                                                       ]
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty sit:hasBearer ;
+                                                                         owl:allValuesFrom interlock:PowerSource
+                                                                       ]
+                                                                       [ rdf:type owl:Restriction ;
+                                                                         owl:onProperty sit:hasQualityInSomeSituation ;
+                                                                         owl:allValuesFrom interlock:PowerStatus
+                                                                       ]
+                                                                     ) ;
+                                                  rdf:type owl:Class
+                                                ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#SC-1
+interlock:SC-1 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( stamp:SafetyConstraintSituation
+                                                          [ rdf:type owl:Class ;
+                                                            owl:complementOf [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty sit:hasHolding ;
+                                                                               owl:someValuesFrom interlock:PowerSourceOn
+                                                                             ]
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty sit:hasHolding ;
+                                                            owl:someValuesFrom interlock:DoorOpen
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty stamp:constrains ;
+                                                            owl:someValuesFrom interlock:H-1
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:label "Power Source must be off when Door is open"@en .
+
+
+###  http://www.owlsai.com/ontologies/interlock#SC-2
+interlock:SC-2 rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( stamp:SafetyConstraintSituation
+                                                          [ rdf:type owl:Class ;
+                                                            owl:complementOf [ rdf:type owl:Restriction ;
+                                                                               owl:onProperty sit:hasHolding ;
+                                                                               owl:someValuesFrom interlock:DoorOpen
+                                                                             ]
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty sit:hasHolding ;
+                                                            owl:someValuesFrom interlock:PowerSourceOn
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty stamp:constrains ;
+                                                            owl:someValuesFrom interlock:H-1
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:label "Door must be closed when Power Source is on"@en .
+
+
+###  http://www.owlsai.com/ontologies/interlock#TurnOffPower
+interlock:TurnOffPower rdf:type owl:Class ;
+                       owl:equivalentClass [ owl:intersectionOf ( csys:ControlAction
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty csys:isRealizedIn ;
+                                                                    owl:someValuesFrom [ owl:intersectionOf ( ttop:Process
+                                                                                                              [ rdf:type owl:Restriction ;
+                                                                                                                owl:onProperty sit:isPossibleIn ;
+                                                                                                                owl:someValuesFrom [ owl:intersectionOf ( sit:Situation
+                                                                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                                                                            owl:onProperty sit:hasHolding ;
+                                                                                                                                                            owl:someValuesFrom interlock:PowerSourceOn
+                                                                                                                                                          ]
+                                                                                                                                                        ) ;
+                                                                                                                                     rdf:type owl:Class
+                                                                                                                                   ]
+                                                                                                              ]
+                                                                                                            ) ;
+                                                                                         rdf:type owl:Class
+                                                                                       ]
+                                                                  ]
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty stamp:requestsToHold ;
+                                                                    owl:someValuesFrom interlock:PowerSourceOff
+                                                                  ]
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty stamp:requestsToNotHold ;
+                                                                    owl:someValuesFrom interlock:PowerSourceOn
+                                                                  ]
+                                                                  [ rdf:type owl:Restriction ;
+                                                                    owl:onProperty ttop:capabilityOf ;
+                                                                    owl:someValuesFrom interlock:PowerController
+                                                                  ]
+                                                                ) ;
+                                             rdf:type owl:Class
+                                           ] .
+
+
+###  http://www.owlsai.com/ontologies/interlock#TurnOnPower
+interlock:TurnOnPower rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( csys:ControlAction
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty csys:isRealizedIn ;
+                                                                   owl:someValuesFrom [ owl:intersectionOf ( ttop:Process
+                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                               owl:onProperty sit:isPossibleIn ;
+                                                                                                               owl:someValuesFrom [ owl:intersectionOf ( sit:Situation
+                                                                                                                                                         [ rdf:type owl:Restriction ;
+                                                                                                                                                           owl:onProperty sit:hasHolding ;
+                                                                                                                                                           owl:someValuesFrom interlock:PowerSourceOff
+                                                                                                                                                         ]
+                                                                                                                                                       ) ;
+                                                                                                                                    rdf:type owl:Class
+                                                                                                                                  ]
+                                                                                                             ]
+                                                                                                           ) ;
+                                                                                        rdf:type owl:Class
+                                                                                      ]
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty stamp:requestsToHold ;
+                                                                   owl:someValuesFrom interlock:PowerSourceOn
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty stamp:requestsToNotHold ;
+                                                                   owl:someValuesFrom interlock:PowerSourceOff
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty ttop:capabilityOf ;
+                                                                   owl:someValuesFrom interlock:PowerController
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( interlock:CloseDoor
+                interlock:OpenDoor
+                interlock:TurnOffPower
+                interlock:TurnOnPower
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( interlock:Door
+                interlock:HumanOperator
+                interlock:Interlock
+                interlock:PowerController
+                interlock:PowerSource
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

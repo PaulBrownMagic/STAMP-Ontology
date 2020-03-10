@@ -1,0 +1,309 @@
+@prefix : <http://www.owlsai.com/ontologies/controlsystem#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.owlsai.com/ontologies/controlsystem> .
+
+<http://www.owlsai.com/ontologies/controlsystem> rdf:type owl:Ontology ;
+                                                  owl:imports <http://www.owlsai.com/ontologies/situation> ;
+                                                  <http://purl.org/dc/terms/abstract> """The Control System Module Ontology is designed to describe those things we model as Control Systems by extending the Systems and Situations Modules.
+
+It includes definitions for Actuators, Sensors and Controllers, these Systems are not considered disjoint to permit a user to describe one system that has all of the associated capabilities without requiring them to decompose them into the respective Actuator, Sensor and Controller parts."""@en ;
+                                                  <http://purl.org/dc/terms/created> "2019-03-14" ;
+                                                  <http://purl.org/dc/terms/creator> <http://www.paulbrownmagic.com/foaf#me> ;
+                                                  <http://purl.org/dc/terms/license> <https://mit-license.org/> ;
+                                                  <http://purl.org/dc/terms/title> "Control Systems Ontology Module"@en ;
+                                                  <http://purl.org/vocab/vann/preferredNamespacePrefix> "csys"@en ;
+                                                  <http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.owlsai.com/ontologies/controlsystem#"@en ;
+                                                  rdfs:comment "An ontology module for describing control systems."@en ;
+                                                  owl:versionInfo "1.0.0" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.owlsai.com/ontologies/controlsystem#believesHolds
+:believesHolds rdf:type owl:ObjectProperty ;
+               rdfs:domain :ProcessModel ;
+               rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
+               rdfs:comment "ProcessModel believesHolds Fluent means the Process model believes but cannot be certain the Fluent holds in the current Situation."@en ;
+               rdfs:label "believes holds"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#hasComponent
+:hasComponent rdf:type owl:ObjectProperty ;
+              owl:inverseOf :isComponentOf ;
+              rdf:type owl:TransitiveProperty ;
+              rdfs:domain :System ;
+              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+              rdfs:comment """Integral hasComponent Component.
+
+\"Integral objects all exhibit some kind of patterned organization or structure. Their components are also patterned and usually bear specific structural and functional relationships to one another and to the wholes which they compose. These structural relations define the particular natures of integral wholes and their components -- components cannot be haphazardly arranged but must be arranged in a particular patterned organization within the wholes they comprise\"
+(Source: Winston, Chaffin and Herrmann, 1987)
+
+eg:
+    Car hasComponent Wheel"""@en ;
+              rdfs:label "has component"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#hasDirectComponent
+:hasDirectComponent rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :hasComponent ;
+                    owl:inverseOf :isDirectComponentOf ;
+                    rdfs:domain :System ;
+                    rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+                    rdfs:comment "As per hasComponent, but not transitive. Expresses granularity."@en ;
+                    rdfs:label "has direct component"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#isComponentOf
+:isComponentOf rdf:type owl:ObjectProperty ,
+                        owl:TransitiveProperty ;
+               rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+               rdfs:range :System ;
+               rdfs:comment """Component isComponentOf Integral.
+
+\"Integral objects all exhibit some kind of patterned organization or structure. Their components are also patterned and usually bear specific structural and functional relationships to one another and to the wholes which they compose. These structural relations define the particular natures of integral wholes and their components -- components cannot be haphazardly arranged but must be arranged in a particular patterned organization within the wholes they comprise\"
+(Source: Winston, Chaffin and Herrmann, 1987)
+
+e.g.
+    Wheel isComponentOf Car"""@en ;
+               rdfs:label "is component of"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#isDirectComponentOf
+:isDirectComponentOf rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf :isComponentOf ;
+                     rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+                     rdfs:range :System ;
+                     rdfs:comment "As per isComponentOf but not transitive. Expresses granularity."@en ;
+                     rdfs:label "is direct component of"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#isRealizedIn
+:isRealizedIn rdf:type owl:ObjectProperty ;
+              owl:inverseOf :realizes ;
+              rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Process> ;
+              rdfs:comment "Capability isRealizedIn Process means there is some Entity that hasCapability Capability and that Entity is realized or occurs in that Process"@en ;
+              rdfs:label "is realized in"@en ;
+              rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000054" .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#observes
+:observes rdf:type owl:ObjectProperty ;
+          rdfs:domain :Observation ;
+          rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
+          rdfs:comment "Observation observes Fluent means that realizing that Observation measures if that Fluent holds in a Situation. No presumption of accuracy is made, only the attempt to measure."@en ;
+          rdfs:label "observes"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#realizes
+:realizes rdf:type owl:ObjectProperty ;
+          rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Process> ;
+          rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+          rdfs:comment "Process realizes Capability means there is some Entity that hasCapability Capability and that Entity is realized or occurs in that Process"@en ;
+          rdfs:label "realizes"@en ;
+          rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000055" .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#receivesFeedback
+:receivesFeedback rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf <http://www.owlsai.com/ontologies/tinytop#informedBy> ;
+                  rdfs:domain :Controller ;
+                  rdfs:range :Feedback ;
+                  rdfs:comment "Controller receivesFeedback Feedback means the Controller reads the information contained within the feedback."@en ;
+                  rdfs:label "receives feedback"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#recordsResultOf
+:recordsResultOf rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :resultRecordedIn ;
+                 rdfs:domain :Feedback ;
+                 rdfs:range :Observation ;
+                 rdfs:comment "Feedback recordsResultOf Observation means the Feedback describes the Fluent as observed in the Situation when the Observation is realized by the Sensor."@en ;
+                 rdfs:label "records result of"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#requests
+:requests rdf:type owl:ObjectProperty ;
+          rdfs:domain :ControlAction ;
+          rdfs:range :Actuation ;
+          rdfs:comment "Controller requests Acutation means the Controller can realize in some Process a request for an Actuator to perform an Actuation and bring about some transition between Situations"@en ;
+          rdfs:label "requests"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#resultRecordedIn
+:resultRecordedIn rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Observation ;
+                  rdfs:range :Feedback ;
+                  rdfs:comment "Observation resultRecordedIn Feedback means the Feedback describes the Fluent as observed in the Situation when the Observation is realized by the Sensor."@en ;
+                  rdfs:label "result recorded in"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.owlsai.com/ontologies/controlsystem#Actuation
+:Actuation rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Capability>
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty <http://www.owlsai.com/ontologies/situation#hasEffect> ;
+                                                        owl:someValuesFrom <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:comment "An Actuation is the capability to transition to a new Situation by changing which Fluents hold."@en ;
+           rdfs:label "Actuation"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Actuator
+:Actuator rdf:type owl:Class ;
+          owl:equivalentClass [ owl:intersectionOf ( :System
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://www.owlsai.com/ontologies/tinytop#hasCapability> ;
+                                                       owl:someValuesFrom :Actuation
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
+          rdfs:comment "An Actuator is a System with the Capability for Actuation, which causes some Fluent to hold, i.e. it causes change by transitioning to new Situations"@en ;
+          rdfs:label "Actuator"@en ;
+          rdfs:seeAlso "http://www.w3.org/ns/sosa/Actuator" .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#ControlAction
+:ControlAction rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Capability>
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :requests ;
+                                                            owl:someValuesFrom :Actuation
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:comment "A Control Action is the Capability to request that some Actuation be realized in a Process."@en ;
+               rdfs:label "Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Controller
+:Controller rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :System
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :receivesFeedback ;
+                                                         owl:someValuesFrom :Feedback
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://www.owlsai.com/ontologies/tinytop#hasCapability> ;
+                                                         owl:someValuesFrom :ControlAction
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://www.owlsai.com/ontologies/tinytop#informedBy> ;
+                                                         owl:someValuesFrom :Procedure
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty <http://www.owlsai.com/ontologies/tinytop#informedBy> ;
+                                                         owl:someValuesFrom :ProcessModel
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:comment "Uses internal process model and sensed information to make decisions regarding its initiation of control actions."@en ;
+            rdfs:label "Controller"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Feedback
+:Feedback rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#InformationEntity> ;
+          rdfs:comment "Feedback is an information content entity that is intended to inform some decision making process"@en ;
+          rdfs:label "Feedback"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Observation
+:Observation rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Capability>
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty :observes ;
+                                                          owl:someValuesFrom <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:comment "Observation is the Capability to measure if a Fluent holds in a Situation"@en ;
+             rdfs:label "Observation"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Procedure
+:Procedure rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#InformationEntity> ;
+           rdfs:comment "A Procedure is an algorithm, heuristic, workflow, protocol or plan outlining some Process"@en ;
+           rdfs:label "Procedure"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#ProcessModel
+:ProcessModel rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#InformationEntity> ;
+              rdfs:comment "A ProcessModel is a model of a process held by some observer of the process. It may not be accurate."@en ;
+              rdfs:label "Process Model"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#Sensor
+:Sensor rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( :System
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://www.owlsai.com/ontologies/tinytop#hasCapability> ;
+                                                     owl:someValuesFrom :Observation
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:comment "A Sensor is a System that can measure a Fluent, i.e. check if a Fluent holds in the current Situation."@en ;
+        rdfs:label "Sensor"@en ;
+        rdfs:seeAlso "http://www.w3.org/ns/sosa/Sensor" .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#System
+:System rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Entity>
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty :hasComponent ;
+                                                     owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Entity>
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:comment """A complex whole comprised of an organisation of parts.
+
+Each part may be a system. It affects and is affected by its environment. An object that can be understood by decomposing it into its component parts."""@en ;
+        rdfs:label "System"@en .
+
+
+###  http://www.owlsai.com/ontologies/controlsystem#SystemQuality
+:SystemQuality rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#QualityFluent>
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasBearer> ;
+                                                            owl:someValuesFrom :System
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ,
+                                   [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#QualityFluent>
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasBearer> ;
+                                                            owl:someValuesFrom :System
+                                                          ]
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                                            owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Quality>
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

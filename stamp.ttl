@@ -1,0 +1,412 @@
+@prefix : <http://www.owlsai.com/ontologies/stamp#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.owlsai.com/ontologies/stamp> .
+
+<http://www.owlsai.com/ontologies/stamp> rdf:type owl:Ontology ;
+                                          owl:imports <http://www.owlsai.com/ontologies/controlsystem> ;
+                                          <http://purl.org/dc/terms/abstract> "The STAMP Ontology Module extends the Safety Situation Module to provide those terms that are pertinent to doing STPA and CAST analysis, based on the STAMP model."@en ;
+                                          <http://purl.org/dc/terms/created> "2019-03-14" ;
+                                          <http://purl.org/dc/terms/creator> <http://www.paulbrownmagic.com/foaf#me> ;
+                                          <http://purl.org/dc/terms/license> "https://mit-license.org/"@en ;
+                                          <http://purl.org/dc/terms/title> "STAMP Ontology Module"@en ;
+                                          <http://purl.org/vocab/vann/preferredNamespacePrefix> "stamp"@en ;
+                                          <http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.owlsai/ontologies/stamp#"@en ;
+                                          rdfs:comment "An ontology module for describing the components of STAMP analysis"@en ;
+                                          rdfs:seeAlso "http://psas.scripts.mit.edu/home/"@en ;
+                                          owl:versionIRI "http://www.w3.org/2002/07/owl" ;
+                                          owl:versionInfo "1.0.0" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.owlsai.com/ontologies/controlsystem#isEffectedBy
+<http://www.owlsai.com/ontologies/controlsystem#isEffectedBy> rdf:type owl:ObjectProperty .
+
+
+###  http://www.owlsai.com/ontologies/stamp#constrains
+:constrains rdf:type owl:ObjectProperty .
+
+
+###  http://www.owlsai.com/ontologies/stamp#hasSubject
+:hasSubject rdf:type owl:ObjectProperty ;
+            rdfs:domain :ControlledProcess ;
+            rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+            rdfs:comment "ControlledProcess hasSubject Entity is an abastraction relation meaning that the Entity's Qualities are intentionally acted upon by some Controller in the Process."@en ;
+            rdfs:label "has subject"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#recordsFluent
+:recordsFluent rdf:type owl:ObjectProperty ;
+               rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#Feedback> ;
+               rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
+               owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#recordsResultOf>
+                                        <http://www.owlsai.com/ontologies/controlsystem#observes>
+                                      ) ;
+               rdfs:comment """recordsFluent is an abstraction relation.
+
+Feedback recordsFluent Fluent is an abstraction of Feedback recordsResultOf (Observation) observes Fluent, by removing the need to define the Observation"""@en ;
+               rdfs:label "records fluent"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#requestsEffect
+:requestsEffect rdf:type owl:ObjectProperty ;
+                rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
+                owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#requests>
+                                         <http://www.owlsai.com/ontologies/situation#hasEffect>
+                                       ) ;
+                rdfs:comment """requestsEffect is an abstraction relation
+
+ControlAction requestsEffect Fluent is an abstraction of ControlAction requests (Actuation) hasEffect Fluent. It removes the need to define the Actuation"""@en ;
+                rdfs:label "requests effect"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#requestsToHold
+:requestsToHold rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :requestsEffect ;
+                owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#requests>
+                                         <http://www.owlsai.com/ontologies/situation#causesToHold>
+                                       ) ;
+                rdfs:comment """requestsPositiveEffect is an abstraction relation
+
+ControlAction requestsPositiveEffect Fluent is an abstraction for the ControlAction requesting a possibly undefined Actuator causing the Fluent to hold"""@en ;
+                rdfs:label "requests effect causing fluent to hold"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#requestsToNotHold
+:requestsToNotHold rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :requestsEffect ;
+                   owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#requests>
+                                            <http://www.owlsai.com/ontologies/situation#causesToNotHold>
+                                          ) ;
+                   rdfs:comment """requestsNegativeEffect is an abstraction relation
+
+ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAction requesting a possibly undefined Actuator causing the Fluent to NOT hold"""@en ;
+                   rdfs:label "requests effect causing fluent to not hold"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.owlsai.com/ontologies/stamp#ControlledProcess
+:ControlledProcess rdf:type owl:Class ;
+                   owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Process>
+                                                              [ rdf:type owl:Restriction ;
+                                                                owl:onProperty :hasSubject ;
+                                                                owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Entity>
+                                                                                                          [ rdf:type owl:Restriction ;
+                                                                                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#isBearerOf> ;
+                                                                                                            owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                                                                                                                      [ rdf:type owl:Restriction ;
+                                                                                                                                                        owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isEffectedBy> ;
+                                                                                                                                                        owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/controlsystem#ControlAction>
+                                                                                                                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                                                                                                                    owl:onProperty <http://www.owlsai.com/ontologies/tinytop#capabilityOf> ;
+                                                                                                                                                                                                    owl:someValuesFrom <http://www.owlsai.com/ontologies/controlsystem#Controller>
+                                                                                                                                                                                                  ]
+                                                                                                                                                                                                ) ;
+                                                                                                                                                                             rdf:type owl:Class
+                                                                                                                                                                           ]
+                                                                                                                                                      ]
+                                                                                                                                                    ) ;
+                                                                                                                                 rdf:type owl:Class
+                                                                                                                               ]
+                                                                                                          ]
+                                                                                                        ) ;
+                                                                                     rdf:type owl:Class
+                                                                                   ]
+                                                              ]
+                                                            ) ;
+                                         rdf:type owl:Class
+                                       ] ;
+                   rdfs:comment "ControlledProcess is an abstraction used to group together entities whose Fluents are considered relevant, that are not themselves controllers, and are the \"subjects of\" the controlled process."@en ;
+                   rdfs:label "Controlled Process"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#Hazard
+:Hazard rdf:type owl:Class ;
+        owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Situation>
+                                                   [ rdf:type owl:Restriction ;
+                                                     owl:onProperty <http://www.owlsai.com/ontologies/situation#hasPossible> ;
+                                                     owl:someValuesFrom :Loss
+                                                   ]
+                                                 ) ;
+                              rdf:type owl:Class
+                            ] ;
+        rdfs:comment "\"A situation in which it is possible for a loss to occur.\" (Source: STPA Handbook)"@en ;
+        rdfs:label "Hazard"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#HazardousProcess
+:HazardousProcess rdf:type owl:Class ;
+                  owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Process>
+                                                             [ rdf:type owl:Restriction ;
+                                                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasResult> ;
+                                                               owl:someValuesFrom :Hazard
+                                                             ]
+                                                           ) ;
+                                        rdf:type owl:Class
+                                      ] ;
+                  rdfs:comment "A Process that results in a Hazard"@en ;
+                  rdfs:label "Hazardous Process"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#Loss
+:Loss rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                        owl:allValuesFrom :Hazard
+                      ] ;
+      rdfs:comment "An event that transitions to a LossMode."@en ;
+      rdfs:label "Loss"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#NotProvidingPotentiallyHazardousControlAction
+:NotProvidingPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                               rdfs:subClassOf :PotentiallyHazardousControlAction ,
+                                                               [ rdf:type owl:Class ;
+                                                                 owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                                                                                 owl:someValuesFrom :SafetyConstraintProcess
+                                                                               ]
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :requestsToHold ;
+                                                                                 owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                                                                                           [ rdf:type owl:Restriction ;
+                                                                                                                             owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                                                                                             owl:someValuesFrom :SafetyConstraintSituation
+                                                                                                                           ]
+                                                                                                                         ) ;
+                                                                                                      rdf:type owl:Class
+                                                                                                    ]
+                                                                               ]
+                                                                               [ rdf:type owl:Restriction ;
+                                                                                 owl:onProperty :requestsToNotHold ;
+                                                                                 owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                                                                                           [ rdf:type owl:Class ;
+                                                                                                                             owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                                                                                owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                                                                                                                owl:someValuesFrom :SafetyConstraintSituation
+                                                                                                                                              ]
+                                                                                                                           ]
+                                                                                                                         ) ;
+                                                                                                      rdf:type owl:Class
+                                                                                                    ]
+                                                                               ]
+                                                                             )
+                                                               ] ;
+                                               rdfs:comment "A Control Action that requests some Actuation that causes some Fluent to not hold that holds in a Hazard"@en ;
+                                               rdfs:label "Not Providing Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#PotentiallyHazardousControlAction
+:PotentiallyHazardousControlAction rdf:type owl:Class ;
+                                   owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/controlsystem#ControlAction>
+                                                                              [ rdf:type owl:Class ;
+                                                                                owl:unionOf ( :NotProvidingPotentiallyHazardousControlAction
+                                                                                              :ProvidingPotentiallyHazardousControlAction
+                                                                                            )
+                                                                              ]
+                                                                            ) ;
+                                                         rdf:type owl:Class
+                                                       ] ;
+                                   rdfs:comment "The Control Action is Potentially Hazardous if Provided or Not Provided"@en ;
+                                   rdfs:label "PotentiallyHazardousControlAction"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#PotentiallyHazardousProcess
+:PotentiallyHazardousProcess rdf:type owl:Class ;
+                             owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Process>
+                                                                        [ rdf:type owl:Restriction ;
+                                                                          owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#realizes> ;
+                                                                          owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasEffect> ;
+                                                                                               owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                                                                    owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                                                                                    owl:someValuesFrom :Hazard
+                                                                                                                  ]
+                                                                                             ]
+                                                                        ]
+                                                                      ) ;
+                                                   rdf:type owl:Class
+                                                 ] ;
+                             rdfs:comment """A Process that realizes some Capability that causes a Fluent to hold that holds in a Hazard Situation.
+
+It is an process that has an effect that holds in a hazard."""@en ;
+                             rdfs:label "Potentially Hazardous Process"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidedTooLatePotentiallyHazardousControlAction
+:ProvidedTooLatePotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                             :TooLateControlAction
+                                                                                           ) ;
+                                                                        rdf:type owl:Class
+                                                                      ] ;
+                                                  rdfs:comment "A Control Action that requests some Actuation which if performed too late causes some Fluent to hold that holds in a Hazard"@en ;
+                                                  rdfs:label "Provided Too Late Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidedTooLongPotentiallyHazardousControlAction
+:ProvidedTooLongPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                             :TooLongControlAction
+                                                                                           ) ;
+                                                                        rdf:type owl:Class
+                                                                      ] ;
+                                                  rdfs:comment "A Control Action that requests some Actuation which if performed for the too long causes some Fluent to hold that holds in a Hazard"@en ;
+                                                  rdfs:label "Provided Too Long Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidedTooShortPotentiallyHazardousControlAction
+:ProvidedTooShortPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                   owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                              :TooShortControlAction
+                                                                                            ) ;
+                                                                         rdf:type owl:Class
+                                                                       ] ;
+                                                   rdfs:comment "A Control Action that requests some Actuation which if performed for the too short a duration causes some Fluent to hold that holds in a Hazard"@en ;
+                                                   rdfs:label "Provided Too Short Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidedTooSoonPotentiallyHazardousControlAction
+:ProvidedTooSoonPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                             :TooSoonControlAction
+                                                                                           ) ;
+                                                                        rdf:type owl:Class
+                                                                      ] ;
+                                                  rdfs:comment "A Control Action that requests some Actuation which if performed too soon causes some Fluent to hold that holds in a Hazard"@en ;
+                                                  rdfs:label "Provided Too Soon Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingPotentiallyHazardousControlAction
+:ProvidingPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                            rdfs:subClassOf :PotentiallyHazardousControlAction ,
+                                                            [ rdf:type owl:Class ;
+                                                              owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :requestsToHold ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                                                                                        [ rdf:type owl:Restriction ;
+                                                                                                                          owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                                                                                          owl:someValuesFrom :Hazard
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :requestsToNotHold ;
+                                                                              owl:someValuesFrom [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Fluent>
+                                                                                                                        [ rdf:type owl:Class ;
+                                                                                                                          owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                                                                             owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                                                                                                             owl:someValuesFrom :Hazard
+                                                                                                                                           ]
+                                                                                                                        ]
+                                                                                                                      ) ;
+                                                                                                   rdf:type owl:Class
+                                                                                                 ]
+                                                                            ]
+                                                                          )
+                                                            ] ;
+                                            rdfs:comment "A Control Action that requests some Actuation that causes some Fluent to hold that holds in a Hazard"@en ;
+                                            rdfs:label "Providing Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#SafetyConstraintProcess
+:SafetyConstraintProcess rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/tinytop#Process>
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                                      owl:someValuesFrom :Hazard
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty :constrains ;
+                                                                      owl:someValuesFrom :Hazard
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] .
+
+
+###  http://www.owlsai.com/ontologies/stamp#SafetyConstraintSituation
+:SafetyConstraintSituation rdf:type owl:Class ;
+                           owl:equivalentClass [ owl:intersectionOf ( <http://www.owlsai.com/ontologies/situation#Situation>
+                                                                      [ rdf:type owl:Class ;
+                                                                        owl:complementOf [ rdf:type owl:Restriction ;
+                                                                                           owl:onProperty <http://www.owlsai.com/ontologies/situation#hasPossible> ;
+                                                                                           owl:someValuesFrom :Loss
+                                                                                         ]
+                                                                      ]
+                                                                      [ rdf:type owl:Restriction ;
+                                                                        owl:onProperty :constrains ;
+                                                                        owl:someValuesFrom :Hazard
+                                                                      ]
+                                                                    ) ;
+                                                 rdf:type owl:Class
+                                               ] .
+
+
+###  http://www.owlsai.com/ontologies/stamp#TooLateControlAction
+:TooLateControlAction rdf:type owl:Class ;
+                      rdfs:subClassOf :WrongTimingControlAction ;
+                      owl:disjointWith :TooSoonControlAction .
+
+
+###  http://www.owlsai.com/ontologies/stamp#TooLongControlAction
+:TooLongControlAction rdf:type owl:Class ;
+                      rdfs:subClassOf :WrongDurationControlAction ;
+                      owl:disjointWith :TooShortControlAction .
+
+
+###  http://www.owlsai.com/ontologies/stamp#TooShortControlAction
+:TooShortControlAction rdf:type owl:Class ;
+                       rdfs:subClassOf :WrongDurationControlAction .
+
+
+###  http://www.owlsai.com/ontologies/stamp#TooSoonControlAction
+:TooSoonControlAction rdf:type owl:Class ;
+                      rdfs:subClassOf :WrongTimingControlAction .
+
+
+###  http://www.owlsai.com/ontologies/stamp#WrongDurationControlAction
+:WrongDurationControlAction rdf:type owl:Class ;
+                            rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> .
+
+
+###  http://www.owlsai.com/ontologies/stamp#WrongDurationPotentiallyHazardousControlAction
+:WrongDurationPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                           :WrongDurationControlAction
+                                                                                         ) ;
+                                                                      rdf:type owl:Class
+                                                                    ] ;
+                                                rdfs:comment "A Control Action that requests some Actuation which if performed for the wrong duration causes some Fluent to hold that holds in a Hazard"@en ;
+                                                rdfs:label "Wrong Duration Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#WrongTimingControlAction
+:WrongTimingControlAction rdf:type owl:Class ;
+                          rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> .
+
+
+###  http://www.owlsai.com/ontologies/stamp#WrongTimingPotentiallyHazardousControlAction
+:WrongTimingPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                              owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                         :WrongTimingControlAction
+                                                                                       ) ;
+                                                                    rdf:type owl:Class
+                                                                  ] ;
+                                              rdfs:comment "A Control Action that requests some Actuation which if performed at the wrong time causes some Fluent to hold that holds in a Hazard"@en ;
+                                              rdfs:label "Wrong Timing Potentially Hazardous Control Action"@en .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
