@@ -1,0 +1,533 @@
+@prefix : <http://www.owlsai.com/ontologies/traindoor#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.owlsai.com/ontologies/traindoor> .
+
+<http://www.owlsai.com/ontologies/traindoor> rdf:type owl:Ontology ;
+                                              owl:imports <http://www.owlsai.com/ontologies/stamp> .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.owlsai.com/ontologies/stamp#Hazard
+<http://www.owlsai.com/ontologies/stamp#Hazard> owl:disjointWith :PartiallyOpen .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#AlignedWithPlatform
+:AlignedWithPlatform rdf:type owl:Class ;
+                     rdfs:subClassOf :Location ;
+                     owl:disjointWith :NotAlignedWithPlatform .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#AutomatedDoorController
+:AutomatedDoorController rdf:type owl:Class ;
+                         rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#System> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Clear
+:Clear rdf:type owl:Class ;
+       rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Quality> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#CloseDoor
+:CloseDoor rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                             owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                  owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                       owl:someValuesFrom :DoorOpen
+                                                                     ]
+                                                ]
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsNegativeEffect> ;
+                             owl:someValuesFrom :DoorOpen
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsPositiveEffect> ;
+                             owl:someValuesFrom :DoorClosed
+                           ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Closed
+:Closed rdf:type owl:Class ;
+        rdfs:subClassOf :Position ;
+        owl:disjointWith :Open .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Door
+:Door rdf:type owl:Class ;
+      rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#System> ;
+      owl:disjointWith :Person .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorClear
+:DoorClear rdf:type owl:Class ;
+           rdfs:subClassOf :DoorQuality ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                             owl:someValuesFrom :Clear
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                             owl:someValuesFrom :Obstructed
+                           ] ;
+           owl:disjointWith :DoorPosition .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorClosed
+:DoorClosed rdf:type owl:Class ;
+            rdfs:subClassOf :DoorPosition ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                              owl:someValuesFrom :Closed
+                            ] ,
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                              owl:someValuesFrom :H-3
+                            ] ;
+            owl:disjointWith :DoorOpen .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorFullyOpen
+:DoorFullyOpen rdf:type owl:Class ;
+               rdfs:subClassOf :DoorOpen ,
+                               [ rdf:type owl:Class ;
+                                 owl:complementOf [ rdf:type owl:Restriction ;
+                                                    owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                                    owl:someValuesFrom :H-1
+                                                  ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                 owl:someValuesFrom :FullyOpen
+                               ] ;
+               owl:disjointWith :DoorPartiallyOpen .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorNotObstructed
+:DoorNotObstructed rdf:type owl:Class ;
+                   rdfs:subClassOf :DoorClear ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                     owl:someValuesFrom :NotObstructed
+                                   ] ;
+                   owl:disjointWith :DoorObstructed .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorObstructed
+:DoorObstructed rdf:type owl:Class ;
+                rdfs:subClassOf :DoorClear ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                  owl:someValuesFrom :H-1
+                                ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorOpen
+:DoorOpen rdf:type owl:Class ;
+          rdfs:subClassOf :DoorPosition ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                            owl:someValuesFrom :Open
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                            owl:someValuesFrom :H-2
+                          ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorPartiallyOpen
+:DoorPartiallyOpen rdf:type owl:Class ;
+                   rdfs:subClassOf :DoorOpen ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                     owl:someValuesFrom :PartiallyOpen
+                                   ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorPosition
+:DoorPosition rdf:type owl:Class ;
+              rdfs:subClassOf :DoorQuality ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                owl:someValuesFrom :Position
+                              ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#DoorQuality
+:DoorQuality rdf:type owl:Class ;
+             rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#SystemQuality> ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasBearer> ;
+                               owl:someValuesFrom :Door
+                             ] ;
+             owl:disjointWith :TrainQuality .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Emergency
+:Emergency rdf:type owl:Class ;
+           rdfs:subClassOf <http://www.owlsai.com/ontologies/situation#Situation> ;
+           rdfs:comment "A Situation in which evacuation of the train is required"@en ;
+           rdfs:label "Emergency"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#FullyOpen
+:FullyOpen rdf:type owl:Class ;
+           rdfs:subClassOf :Open .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#H-1
+:H-1 rdf:type owl:Class ;
+     rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#Hazard> ,
+                     [ rdf:type owl:Class ;
+                       owl:complementOf [ rdf:type owl:Restriction ;
+                                          owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                          owl:someValuesFrom :DoorFullyOpen
+                                        ]
+                     ] ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                       owl:someValuesFrom :DoorObstructed
+                     ] ;
+     rdfs:label "Doors close on a person in the doorway"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#H-2
+:H-2 rdf:type owl:Class ;
+     rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#Hazard> ,
+                     [ rdf:type owl:Class ;
+                       owl:unionOf ( [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                       owl:someValuesFrom :TrainMoving
+                                     ]
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                       owl:someValuesFrom :TrainNotAlignedWithPlatform
+                                     ]
+                                   )
+                     ] ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                       owl:someValuesFrom :DoorOpen
+                     ] ;
+     rdfs:label "Doors open when the train is moving or not in a station"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#H-21
+:H-21 rdf:type owl:Class ;
+      rdfs:subClassOf :H-2 ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                        owl:someValuesFrom :TrainMoving
+                      ] ;
+      rdfs:comment "Doors open when the train is moving"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#H-22
+:H-22 rdf:type owl:Class ;
+      rdfs:subClassOf :H-2 ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                        owl:someValuesFrom :TrainNotAlignedWithPlatform
+                      ] ;
+      rdfs:comment "Doors open when the train is not in a station"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#H-3
+:H-3 rdf:type owl:Class ;
+     rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#Hazard> ,
+                     :Emergency ,
+                     [ rdf:type owl:Restriction ;
+                       owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                       owl:someValuesFrom :DoorClosed
+                     ] ;
+     rdfs:label "Passengers/staff are unable to exit during an emergency"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#L-1
+:L-1 rdf:type owl:Class ;
+     rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#Loss> ;
+     rdfs:label "Loss of life or injury"@en .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Location
+:Location rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Quality> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Motion
+:Motion rdf:type owl:Class ;
+        rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Quality> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Moving
+:Moving rdf:type owl:Class ;
+        rdfs:subClassOf :Motion ;
+        owl:disjointWith :Stopped .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#NotAlignedWithPlatform
+:NotAlignedWithPlatform rdf:type owl:Class ;
+                        rdfs:subClassOf :Location .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#NotObstructed
+:NotObstructed rdf:type owl:Class ;
+               rdfs:subClassOf :Clear ;
+               owl:disjointWith :Obstructed .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Obstructed
+:Obstructed rdf:type owl:Class ;
+            rdfs:subClassOf :Clear .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Open
+:Open rdf:type owl:Class ;
+      rdfs:subClassOf :Position .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#OpenDoor
+:OpenDoor rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                            owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                 owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                 owl:someValuesFrom [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                             owl:someValuesFrom :DoorClosed
+                                                                                           ]
+                                                                                           [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                             owl:someValuesFrom :TrainAlignedWithPlatform
+                                                                                           ]
+                                                                                           [ rdf:type owl:Restriction ;
+                                                                                             owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                             owl:someValuesFrom :TrainStopped
+                                                                                           ]
+                                                                                         ) ;
+                                                                      rdf:type owl:Class
+                                                                    ]
+                                               ]
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsNegativeEffect> ;
+                            owl:someValuesFrom :DoorClosed
+                          ] ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsPositiveEffect> ;
+                            owl:someValuesFrom :DoorFullyOpen
+                          ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#PartiallyOpen
+:PartiallyOpen rdf:type owl:Class ;
+               rdfs:subClassOf :Open .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Passenger
+:Passenger rdf:type owl:Class ;
+           rdfs:subClassOf :Person .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Person
+:Person rdf:type owl:Class ;
+        rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#System> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Position
+:Position rdf:type owl:Class ;
+          rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Quality> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#ShortCloseDoor
+:ShortCloseDoor rdf:type owl:Class ;
+                rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#TooShortControlAction> ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                                  owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                       owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                       owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                            owl:someValuesFrom :DoorFullyOpen
+                                                                          ]
+                                                     ]
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsNegativeEffect> ;
+                                  owl:someValuesFrom :DoorFullyOpen
+                                ] ,
+                                [ rdf:type owl:Restriction ;
+                                  owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsPositiveEffect> ;
+                                  owl:someValuesFrom :DoorPartiallyOpen
+                                ] ;
+                owl:disjointWith :ShortOpenDoor .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#ShortOpenDoor
+:ShortOpenDoor rdf:type owl:Class ;
+               rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#TooShortControlAction> ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                                 owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                      owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                      owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                                           owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                           owl:someValuesFrom :DoorClosed
+                                                                         ]
+                                                    ]
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsNegativeEffect> ;
+                                 owl:someValuesFrom :DoorClosed
+                               ] ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsPositiveEffect> ;
+                                 owl:someValuesFrom :DoorPartiallyOpen
+                               ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Staff
+:Staff rdf:type owl:Class ;
+       rdfs:subClassOf :Person .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Stopped
+:Stopped rdf:type owl:Class ;
+         rdfs:subClassOf :Motion .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#Train
+:Train rdf:type owl:Class ;
+       rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#System> .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainAlignedWithPlatform
+:TrainAlignedWithPlatform rdf:type owl:Class ;
+                          rdfs:subClassOf :TrainLocation ,
+                                          [ rdf:type owl:Restriction ;
+                                            owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                            owl:someValuesFrom :AlignedWithPlatform
+                                          ] ;
+                          owl:disjointWith :TrainNotAlignedWithPlatform .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainLocation
+:TrainLocation rdf:type owl:Class ;
+               rdfs:subClassOf :TrainQuality ,
+                               [ rdf:type owl:Restriction ;
+                                 owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                 owl:someValuesFrom :Location
+                               ] ;
+               owl:disjointWith :TrainMotion .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainMotion
+:TrainMotion rdf:type owl:Class ;
+             rdfs:subClassOf :TrainQuality ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                               owl:someValuesFrom :Motion
+                             ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainMoving
+:TrainMoving rdf:type owl:Class ;
+             rdfs:subClassOf :TrainMotion ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                               owl:someValuesFrom :Moving
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                               owl:someValuesFrom :H-2
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                               owl:someValuesFrom :H-21
+                             ] ;
+             owl:disjointWith :TrainStopped .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainNotAlignedWithPlatform
+:TrainNotAlignedWithPlatform rdf:type owl:Class ;
+                             rdfs:subClassOf :TrainLocation ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                               owl:someValuesFrom :NotAlignedWithPlatform
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                               owl:someValuesFrom :H-2
+                                             ] ,
+                                             [ rdf:type owl:Restriction ;
+                                               owl:onProperty <http://www.owlsai.com/ontologies/situation#holdsIn> ;
+                                               owl:someValuesFrom :H-22
+                                             ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainQuality
+:TrainQuality rdf:type owl:Class ;
+              rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#SystemQuality> ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://www.owlsai.com/ontologies/situation#hasBearer> ;
+                                owl:someValuesFrom :Train
+                              ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#TrainStopped
+:TrainStopped rdf:type owl:Class ;
+              rdfs:subClassOf :TrainMotion ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty <http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation> ;
+                                owl:someValuesFrom :Stopped
+                              ] .
+
+
+###  http://www.owlsai.com/ontologies/traindoor#WrongTimeOpenDoor
+:WrongTimeOpenDoor rdf:type owl:Class ;
+                   rdfs:subClassOf <http://www.owlsai.com/ontologies/stamp#WrongTimingControlAction> ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.owlsai.com/ontologies/controlsystem#isRealizedIn> ;
+                                     owl:someValuesFrom [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
+                                                          owl:someValuesFrom [ owl:intersectionOf ( [ rdf:type owl:Class ;
+                                                                                                      owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                                                                      owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                                                      owl:someValuesFrom :TrainMoving
+                                                                                                                    ]
+                                                                                                                    [ rdf:type owl:Restriction ;
+                                                                                                                      owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                                                      owl:someValuesFrom :TrainNotAlignedWithPlatform
+                                                                                                                    ]
+                                                                                                                  )
+                                                                                                    ]
+                                                                                                    [ rdf:type owl:Restriction ;
+                                                                                                      owl:onProperty <http://www.owlsai.com/ontologies/situation#hasHolding> ;
+                                                                                                      owl:someValuesFrom :DoorClosed
+                                                                                                    ]
+                                                                                                  ) ;
+                                                                               rdf:type owl:Class
+                                                                             ]
+                                                        ]
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsNegativeEffect> ;
+                                     owl:someValuesFrom :DoorClosed
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty <http://www.owlsai.com/ontologies/stamp#requestsPositiveEffect> ;
+                                     owl:someValuesFrom :DoorFullyOpen
+                                   ] .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

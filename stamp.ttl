@@ -334,7 +334,9 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                     ]
                                                                   ) ;
                                                rdf:type owl:Class
-                                             ] .
+                                             ] ;
+                         rdfs:comment "A Process that should be taken if it is possible to ensure safety"@en ;
+                         rdfs:label "Safety Constraint Process"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#SafetyConstraintSituation
@@ -352,34 +354,46 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                       ]
                                                                     ) ;
                                                  rdf:type owl:Class
-                                               ] .
+                                               ] ;
+                           rdfs:comment "A Situation in which some Hazard cannot also be."@en ;
+                           rdfs:label "Safety Constraint Situation"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#TooLateControlAction
 :TooLateControlAction rdf:type owl:Class ;
                       rdfs:subClassOf :WrongTimingControlAction ;
-                      owl:disjointWith :TooSoonControlAction .
+                      owl:disjointWith :TooSoonControlAction ;
+                      rdfs:comment "A Control Action that results in the actuation being provided too late."@en ;
+                      rdfs:label "Too Late Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#TooLongControlAction
 :TooLongControlAction rdf:type owl:Class ;
                       rdfs:subClassOf :WrongDurationControlAction ;
-                      owl:disjointWith :TooShortControlAction .
+                      owl:disjointWith :TooShortControlAction ;
+                      rdfs:comment "A Control Action that results in the actuation being provided for too long a duration."@en ;
+                      rdfs:label "Too Long Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#TooShortControlAction
 :TooShortControlAction rdf:type owl:Class ;
-                       rdfs:subClassOf :WrongDurationControlAction .
+                       rdfs:subClassOf :WrongDurationControlAction ;
+                       rdfs:comment "A Control Action that results in the actuation being provided for too short a duration."@en ;
+                       rdfs:label "Too Short Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#TooSoonControlAction
 :TooSoonControlAction rdf:type owl:Class ;
-                      rdfs:subClassOf :WrongTimingControlAction .
+                      rdfs:subClassOf :WrongTimingControlAction ;
+                      rdfs:comment "A Control Action that results in the actuation being provided too soon."@en ;
+                      rdfs:label "Too Soon Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#WrongDurationControlAction
 :WrongDurationControlAction rdf:type owl:Class ;
-                            rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> .
+                            rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                            rdfs:comment "A Control Action that results in the actuation being provided for the wrong duration."@en ;
+                            rdfs:label "Wrong Duration Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#WrongDurationPotentiallyHazardousControlAction
@@ -395,7 +409,9 @@ It is an process that has an effect that holds in a hazard."""@en ;
 
 ###  http://www.owlsai.com/ontologies/stamp#WrongTimingControlAction
 :WrongTimingControlAction rdf:type owl:Class ;
-                          rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> .
+                          rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                          rdfs:comment "A Control Action that results in the actuation being provided at the incorrect time."@en ;
+                          rdfs:label "Wrong Timing Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#WrongTimingPotentiallyHazardousControlAction

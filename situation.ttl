@@ -28,43 +28,21 @@ Due to the requirement to describe things in situations the systems module is im
 #################################################################
 #    Object Properties
 #################################################################
+
 ###  http://www.owlsai.com/ontologies/situation#causesToHold
 :causesToHold rdf:type owl:ObjectProperty ;
-			  rdfs:subPropertyOf :hasEffect ;
-			  rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to hold in the resulting Situation"@en ;
-			  rdfs:label "causes to hold"@en ;
-			  rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
+              rdfs:subPropertyOf :hasEffect ;
+              rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to hold in the resulting Situation"@en ;
+              rdfs:label "causes to hold"@en ;
+              rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
 
 
 ###  http://www.owlsai.com/ontologies/situation#causesToNotHold
 :causesToNotHold rdf:type owl:ObjectProperty ;
-				 rdfs:subPropertyOf :hasEffect ;
-				 rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to NOT hold in the resulting Situation"@en ;
-				 rdfs:label "causes to not hold"@en ;
-				 rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
-
-
-###  http://www.owlsai.com/ontologies/situation#hasEffect
-:hasEffect rdf:type owl:ObjectProperty ;
-		   rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
-		   rdfs:range :Fluent ;
-		   rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
-
-Capability hasEffect Fluent means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
-                                                       rdfs:label "has effect"@en .
-
-
-###  http://www.owlsai.com/ontologies/controlsystem#isEffectedBy
-:isEffectedBy rdf:type owl:ObjectProperty ;
-              owl:inverseOf :hasEffect ;
-              rdfs:domain :Fluent ;
-              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
-              rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
-
-Fluent isEffectedBy Capability means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
-              rdfs:label "is effected by"@en .
-
-
+                 rdfs:subPropertyOf :hasEffect ;
+                 rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to NOT hold in the resulting Situation"@en ;
+                 rdfs:label "causes to not hold"@en ;
+                 rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
 
 
 ###  http://www.owlsai.com/ontologies/situation#hasBearer
@@ -74,6 +52,17 @@ Fluent isEffectedBy Capability means the result or consequence of realizing the 
            rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
            rdfs:comment "Fluent hasBearer Entity means when the Fluent holds (is true), then the Entity is the bearer of the concepts related by the Fluent"@en ;
            rdfs:label "has bearer"@en .
+
+
+###  http://www.owlsai.com/ontologies/situation#hasEffect
+:hasEffect rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isEffectedBy ;
+           rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+           rdfs:range :Fluent ;
+           rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
+
+Capability hasEffect Fluent means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
+           rdfs:label "has effect"@en .
 
 
 ###  http://www.owlsai.com/ontologies/situation#hasHolding
@@ -97,7 +86,7 @@ Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Process> ;
              rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
-Situation hasPossible Event means the Event is capable of happening in the Situation. It does not mean that the event will happen, only that it is possible to happen."""@en .
+Situation hasPossible Process means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
 
 
 ###  http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation
@@ -138,6 +127,16 @@ Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
             rdfs:label "is bearer of"@en .
 
 
+###  http://www.owlsai.com/ontologies/situation#isEffectedBy
+:isEffectedBy rdf:type owl:ObjectProperty ;
+              rdfs:domain :Fluent ;
+              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+              rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
+
+Fluent isEffectedBy Capability means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
+              rdfs:label "is effected by"@en .
+
+
 ###  http://www.owlsai.com/ontologies/situation#isPossibleIn
 :isPossibleIn rdf:type owl:ObjectProperty ,
                        owl:AsymmetricProperty ,
@@ -146,7 +145,7 @@ Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
               rdfs:range :Situation ;
               rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
-Event isPossibleIn Situation means the Event is capable of happening in the Situation. It does not mean that the event will happen, only that it is possible to happen."""@en .
+Process isPossibleIn Situation means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
 
 
 #################################################################
@@ -172,7 +171,9 @@ Event isPossibleIn Situation means the Event is capable of happening in the Situ
                                                           ]
                                                         ) ;
                                      rdf:type owl:Class
-                                   ] .
+                                   ] ;
+               rdfs:comment "A Fluent relating a bearer to a quality in some situations"@en ;
+               rdfs:label "Quality Fluent"@en .
 
 
 ###  http://www.owlsai.com/ontologies/situation#Situation
