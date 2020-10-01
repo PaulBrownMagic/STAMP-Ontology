@@ -159,12 +159,12 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
 
 ###  http://www.owlsai.com/ontologies/stamp#Loss
 :Loss rdf:type owl:Class ;
-      rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ,
+      rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Capability> ,
                       [ rdf:type owl:Restriction ;
                         owl:onProperty <http://www.owlsai.com/ontologies/situation#isPossibleIn> ;
                         owl:allValuesFrom :Hazard
                       ] ;
-      rdfs:comment "An event that transitions to a LossMode."@en ;
+      rdfs:comment "The Capability to transition to a LossMode, in which something of value to the stakeholders is lost."@en ;
       rdfs:label "Loss"@en .
 
 
