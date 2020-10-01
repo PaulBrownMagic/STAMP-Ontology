@@ -6,201 +6,259 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix terms: <http://purl.org/dc/terms/> .
-@base <http://www.owlsai.com/ontologies/situation> .
 
-<http://www.owlsai.com/ontologies/situation> rdf:type owl:Ontology ;
-                                              owl:imports <http://www.owlsai.com/ontologies/tinytop> ;
-                                              terms:abstract """The Situation Module Ontology is designed to describe those things we model as situations.
+<http://www.owlsai.com/ontologies/situation> a owl:Ontology ;
+	owl:imports <http://www.owlsai.com/ontologies/tinytop> ;
+	terms:abstract """The Situation Module Ontology is designed to describe those things we model as situations.
 
 The thinking behind this ontology is heavily influenced by Situation Calculus and Situation Theory in the definition of a Situation and how actions or events can transition between them. It also draws on ideas from Allens Interval Calculus as used in BFO v.1 for relations between processes.
 
 Due to the requirement to describe things in situations the systems module is imported, however this could be replaced with any other ontology that can describe entities and their qualities."""@en ;
-                                              terms:created "2019-03-14" ;
-                                              terms:creator <http://www.paulbrownmagic.com/foaf#me> ;
-                                              terms:license "https://mit-license.org/"@en ;
-                                              terms:title "Situation Ontology Module"@en ;
-                                              vann:preferredNamespacePrefix "sit"@en ;
-                                              vann:preferredNamespaceUri "http://www.owlsai/ontologies/situation#"@en ;
-                                              rdfs:comment "An ontology module for reasoning about situations. Inspired by Situation Calculus and The Situation Theory."@en ;
-                                              owl:versionIRI "http://www.w3.org/2002/07/owl" ;
-                                              owl:versionInfo "1.0.0" .
+	terms:created "2019-03-14" ;
+	terms:creator <http://www.paulbrownmagic.com/foaf#me> ;
+	terms:license "https://mit-license.org/"@en ;
+	terms:title "Situation Ontology Module"@en ;
+	vann:preferredNamespacePrefix "sit"@en ;
+	vann:preferredNamespaceUri "http://www.owlsai/ontologies/situation#"@en ;
+	rdfs:comment "An ontology module for reasoning about situations. Inspired by Situation Calculus and The Situation Theory."@en ;
+	owl:versionIRI "http://www.w3.org/2002/07/owl" ;
+	owl:versionInfo "1.0.0" .
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://www.owlsai.com/ontologies/situation#causesToHold
 
-#################################################################
-#    Object Properties
-#################################################################
+:causesToHold a owl:ObjectProperty ;
+	rdfs:subPropertyOf :hasEffect ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:range :Fluent ;
+	rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to hold in the resulting Situation"@en ;
+	rdfs:label "causes to hold"@en ;
+	rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#causesToNotHold
 
-###  http://www.owlsai.com/ontologies/situation#causesToHold
-:causesToHold rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf :hasEffect ;
-              rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to hold in the resulting Situation"@en ;
-              rdfs:label "causes to hold"@en ;
-              rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
+:causesToNotHold a owl:ObjectProperty ;
+	rdfs:subPropertyOf :hasEffect ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:range :Fluent ;
+	rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to NOT hold in the resulting Situation"@en ;
+	rdfs:label "causes to not hold"@en ;
+	rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasBearer
 
+:hasBearer a owl:ObjectProperty ;
+	owl:inverseOf :isBearerOf ;
+	rdfs:domain :Fluent ;
+	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+	rdfs:comment "Fluent hasBearer Entity means when the Fluent holds (is true), then the Entity is the bearer of the concepts related by the Fluent"@en ;
+	rdfs:label "has bearer"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasEffect
 
-###  http://www.owlsai.com/ontologies/situation#causesToNotHold
-:causesToNotHold rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf :hasEffect ;
-                 rdfs:comment "Capability causesToHold Fluent means the realization of the Capability will cause the Fluent to NOT hold in the resulting Situation"@en ;
-                 rdfs:label "causes to not hold"@en ;
-                 rdfs:seeAlso "Reymond Reiter, \"Knowledge In Action\", The MIT Press, Cambridge, Massachusetts, 2001, ISBN: 0-262-18218-1, pages 30-31"@en .
-
-
-###  http://www.owlsai.com/ontologies/situation#hasBearer
-:hasBearer rdf:type owl:ObjectProperty ;
-           owl:inverseOf :isBearerOf ;
-           rdfs:domain :Fluent ;
-           rdfs:range <http://www.owlsai.com/ontologies/tinytop#Entity> ;
-           rdfs:comment "Fluent hasBearer Entity means when the Fluent holds (is true), then the Entity is the bearer of the concepts related by the Fluent"@en ;
-           rdfs:label "has bearer"@en .
-
-
-###  http://www.owlsai.com/ontologies/situation#hasEffect
-:hasEffect rdf:type owl:ObjectProperty ;
-           owl:inverseOf :isEffectedBy ;
-           rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
-           rdfs:range :Fluent ;
-           rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
+:hasEffect a owl:ObjectProperty ;
+	owl:inverseOf :isEffectedBy ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:range :Fluent ;
+	rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
 
 Capability hasEffect Fluent means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
-           rdfs:label "has effect"@en .
+	rdfs:label "has effect"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasHolding
 
-
-###  http://www.owlsai.com/ontologies/situation#hasHolding
-:hasHolding rdf:type owl:ObjectProperty ;
-            owl:inverseOf :holdsIn ;
-            rdfs:domain :Situation ;
-            rdfs:range :Fluent ;
-            rdfs:comment """\"to hold: think, believe, assert\" (Source: Pocket Oxford Dictionary, 1992)
+:hasHolding a owl:ObjectProperty ;
+	owl:inverseOf :holdsIn ;
+	rdfs:domain :Situation ;
+	rdfs:range :Fluent ;
+	rdfs:comment """\"to hold: think, believe, assert\" (Source: Pocket Oxford Dictionary, 1992)
 
 Situation hasHolding Fluent means the Fluent is thought, believed and asserted to be true in the Situation.
 
 Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasPossible
 
-
-###  http://www.owlsai.com/ontologies/situation#hasPossible
-:hasPossible rdf:type owl:ObjectProperty ;
-             owl:inverseOf :isPossibleIn ;
-             rdf:type owl:AsymmetricProperty ,
-                      owl:IrreflexiveProperty ;
-             rdfs:domain :Situation ;
-             rdfs:range <http://www.owlsai.com/ontologies/tinytop#Process> ;
-             rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
+:hasPossible a owl:ObjectProperty ;
+	owl:inverseOf :isPossibleIn ;
+	a owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+	rdfs:domain :Situation ;
+	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
 Situation hasPossible Process means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation
 
+:hasQualityInSomeSituation a owl:ObjectProperty ;
+	rdfs:domain :Fluent ;
+	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Quality> ;
+	rdfs:comment "Fluent hasQualityInSomeSituation Quality means that when the Fluent holds (is true), then the hasBearer of the Fluent has that Quality."@en .
+# 
+# http://www.owlsai.com/ontologies/situation#hasResult
 
-###  http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation
-:hasQualityInSomeSituation rdf:type owl:ObjectProperty ;
-                           rdfs:domain :Fluent ;
-                           rdfs:range <http://www.owlsai.com/ontologies/tinytop#Quality> ;
-                           rdfs:comment "Fluent hasQualityInSomeSituation Quality means that when the Fluent holds (is true), then the hasBearer of the Fluent has that Quality."@en .
-
-
-###  http://www.owlsai.com/ontologies/situation#hasResult
-:hasResult rdf:type owl:ObjectProperty ,
-                    owl:FunctionalProperty ,
-                    owl:AsymmetricProperty ,
-                    owl:IrreflexiveProperty ;
-           rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Process> ;
-           rdfs:range :Situation ;
-           rdfs:comment """\"consequence, issue or outcome of something\" (Source: Pocket Oxford Dictionary, 1992)
+:hasResult a owl:ObjectProperty , owl:FunctionalProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Process> ;
+	rdfs:range :Situation ;
+	rdfs:comment """\"consequence, issue or outcome of something\" (Source: Pocket Oxford Dictionary, 1992)
 
 Process hasResult Situation means that Process transitions to that Situation as a result of the events since S0."""@en .
+# 
+# http://www.owlsai.com/ontologies/situation#holdsIn
 
-
-###  http://www.owlsai.com/ontologies/situation#holdsIn
-:holdsIn rdf:type owl:ObjectProperty ;
-         rdfs:domain :Fluent ;
-         rdfs:range :Situation ;
-         rdfs:comment """\"to hold: think, believe, assert\" (Source: Pocket Oxford Dictionary, 1992)
+:holdsIn a owl:ObjectProperty ;
+	rdfs:domain :Fluent ;
+	rdfs:range :Situation ;
+	rdfs:comment """\"to hold: think, believe, assert\" (Source: Pocket Oxford Dictionary, 1992)
 
 Fluent holdsIn Situation means the Fluent is thought, believed and asserted to be true in the Situation.
 
-Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
+Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en ;
+	rdfs:label "holds in"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#isBearerOf
 
+:isBearerOf a owl:ObjectProperty ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+	rdfs:range :Fluent ;
+	rdfs:comment "Entity isBearerOf Fluent means when the Fluent holds (is true), then the Entity is the bearer of the concepts related by the Fluent"@en ;
+	rdfs:label "is bearer of"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#isEffectedBy
 
-###  http://www.owlsai.com/ontologies/situation#isBearerOf
-:isBearerOf rdf:type owl:ObjectProperty ;
-            rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Entity> ;
-            rdfs:range :Fluent ;
-            rdfs:comment "Entity isBearerOf Fluent means when the Fluent holds (is true), then the Entity is the bearer of the concepts related by the Fluent"@en ;
-            rdfs:label "is bearer of"@en .
-
-
-###  http://www.owlsai.com/ontologies/situation#isEffectedBy
-:isEffectedBy rdf:type owl:ObjectProperty ;
-              rdfs:domain :Fluent ;
-              rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
-              rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
+:isEffectedBy a owl:ObjectProperty ;
+	rdfs:domain :Fluent ;
+	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:comment """\"effect: result or consequence of an action etc.\" (Source: Pocket Oxford Dictionary, 1992)
 
 Fluent isEffectedBy Capability means the result or consequence of realizing the Capability will determine if the Fluent holds in the resulting Situation."""@en ;
-              rdfs:label "is effected by"@en .
+	rdfs:label "is effected by"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#isPossibleIn
 
-
-###  http://www.owlsai.com/ontologies/situation#isPossibleIn
-:isPossibleIn rdf:type owl:ObjectProperty ,
-                       owl:AsymmetricProperty ,
-                       owl:IrreflexiveProperty ;
-              rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Process> ;
-              rdfs:range :Situation ;
-              rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
+:isPossibleIn a owl:ObjectProperty , owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+	rdfs:domain <http://www.owlsai.com/ontologies/tinytop#Capability> ;
+	rdfs:range :Situation ;
+	rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
 Process isPossibleIn Situation means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
+# 
+# http://www.owlsai.com/ontologies/situation#notHasHolding
 
+:notHasHolding a owl:ObjectProperty ;
+	owl:inverseOf :notHoldsIn ;
+	rdfs:domain :Situation ;
+	rdfs:range :Fluent ;
+	rdfs:comment "Situation notHasHolding Fluent is to be uderstood as equivalent to not (Situation hasHolding Fluent). This is required for use with the GUI and is a temporary compromise."@en ;
+	rdfs:label "not has holding"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#notHoldsIn
 
-#################################################################
-#    Classes
-#################################################################
+:notHoldsIn a owl:ObjectProperty ;
+	rdfs:domain :Fluent ;
+	rdfs:range :Situation ;
+	rdfs:comment "Fluent notHoldsIn Situation is to be uderstood as equivalent to not (Fluent holdsIn Situation). This is required for use with the GUI and is a temporary compromise."@en ;
+	rdfs:label "does not hold in"@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://www.owlsai.com/ontologies/situation#Fluent
 
-###  http://www.owlsai.com/ontologies/situation#Fluent
-:Fluent rdf:type owl:Class ;
-        rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Continuant> ;
-        rdfs:comment "A fact that is true in some situation(s). (Relational Fluent)"@en .
+:Fluent a owl:Class ;
+	rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Continuant> ;
+	rdfs:comment "A fact that is true in some situation(s). (Relational Fluent)"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#QualityFluent
 
+:QualityFluent a owl:Class ;
+	owl:equivalentClass _:genid1 .
 
-###  http://www.owlsai.com/ontologies/situation#QualityFluent
-:QualityFluent rdf:type owl:Class ;
-               owl:equivalentClass [ owl:intersectionOf ( :Fluent
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :hasBearer ;
-                                                            owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Entity>
-                                                          ]
-                                                          [ rdf:type owl:Restriction ;
-                                                            owl:onProperty :hasQualityInSomeSituation ;
-                                                            owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Quality>
-                                                          ]
-                                                        ) ;
-                                     rdf:type owl:Class
-                                   ] ;
-               rdfs:comment "A Fluent relating a bearer to a quality in some situations"@en ;
-               rdfs:label "Quality Fluent"@en .
+_:genid1 owl:intersectionOf _:genid6 .
 
+_:genid6 a rdf:List ;
+	rdf:first :Fluent ;
+	rdf:rest _:genid4 .
 
-###  http://www.owlsai.com/ontologies/situation#Situation
-:Situation rdf:type owl:Class ;
-           owl:equivalentClass [ rdf:type owl:Restriction ;
-                                 owl:onProperty :hasHolding ;
-                                 owl:someValuesFrom :Fluent
-                               ] ;
-           rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Continuant> ;
-           rdfs:comment """\"circumstances; position; state of affairs\" (Source: Pocket Oxford Dictionary, 1992)
+_:genid4 a rdf:List ;
+	rdf:first _:genid5 .
+
+_:genid5 a owl:Restriction ;
+	owl:onProperty :hasBearer ;
+	owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Entity> .
+
+_:genid4 rdf:rest _:genid2 .
+
+_:genid2 a rdf:List ;
+	rdf:first _:genid3 .
+
+_:genid3 a owl:Restriction ;
+	owl:onProperty :hasQualityInSomeSituation ;
+	owl:someValuesFrom <http://www.owlsai.com/ontologies/tinytop#Quality> .
+
+_:genid2 rdf:rest rdf:nil .
+
+_:genid1 a owl:Class .
+
+:QualityFluent rdfs:comment "A Fluent relating a bearer to a quality in some situations"@en ;
+	rdfs:label "Quality Fluent"@en .
+# 
+# http://www.owlsai.com/ontologies/situation#Situation
+
+:Situation a owl:Class ;
+	owl:equivalentClass _:genid7 .
+
+_:genid7 a owl:Restriction ;
+	owl:onProperty :hasHolding ;
+	owl:someValuesFrom :Fluent .
+
+:Situation rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Continuant> ;
+	rdfs:comment """\"circumstances; position; state of affairs\" (Source: Pocket Oxford Dictionary, 1992)
 
 \"individuals having properties and standing in relations at various spatiotemporal locations\" (Source: Barwise and Perry, \"Situations and Attitudes\", 1983)
 
 An abstract situation, describes an abstract condition of the domain. A set of fluents that hold."""@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    General axioms
+# #
+# #################################################################
+# 
+# 
 
+_:genid8 a owl:AllDisjointClasses ;
+	owl:members _:genid12 .
 
-#################################################################
-#    General axioms
-#################################################################
+_:genid12 a rdf:List ;
+	rdf:first :Fluent ;
+	rdf:rest _:genid11 .
 
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( :Fluent
-                :Situation
-                <http://www.owlsai.com/ontologies/tinytop#Entity>
-                <http://www.owlsai.com/ontologies/tinytop#Quality>
-              )
-] .
+_:genid11 a rdf:List ;
+	rdf:first :Situation ;
+	rdf:rest _:genid10 .
 
+_:genid10 a rdf:List ;
+	rdf:first <http://www.owlsai.com/ontologies/tinytop#Entity> ;
+	rdf:rest _:genid9 .
 
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+_:genid9 a rdf:List ;
+	rdf:first <http://www.owlsai.com/ontologies/tinytop#Quality> ;
+	rdf:rest rdf:nil .
+# 
+# Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

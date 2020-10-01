@@ -69,6 +69,8 @@ ControlAction requestsEffect Fluent is an abstraction of ControlAction requests 
 ###  http://www.owlsai.com/ontologies/stamp#requestsToHold
 :requestsToHold rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf :requestsEffect ;
+                rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
                 owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#requests>
                                          <http://www.owlsai.com/ontologies/situation#causesToHold>
                                        ) ;
@@ -81,6 +83,8 @@ ControlAction requestsPositiveEffect Fluent is an abstraction for the ControlAct
 ###  http://www.owlsai.com/ontologies/stamp#requestsToNotHold
 :requestsToNotHold rdf:type owl:ObjectProperty ;
                    rdfs:subPropertyOf :requestsEffect ;
+                   rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                   rdfs:range <http://www.owlsai.com/ontologies/situation#Fluent> ;
                    owl:propertyChainAxiom ( <http://www.owlsai.com/ontologies/controlsystem#requests>
                                             <http://www.owlsai.com/ontologies/situation#causesToNotHold>
                                           ) ;
@@ -243,50 +247,6 @@ It is an process that has an effect that holds in a hazard."""@en ;
                              rdfs:label "Potentially Hazardous Process"@en .
 
 
-###  http://www.owlsai.com/ontologies/stamp#ProvidedTooLatePotentiallyHazardousControlAction
-:ProvidedTooLatePotentiallyHazardousControlAction rdf:type owl:Class ;
-                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                             :TooLateControlAction
-                                                                                           ) ;
-                                                                        rdf:type owl:Class
-                                                                      ] ;
-                                                  rdfs:comment "A Control Action that requests some Actuation which if performed too late causes some Fluent to hold that holds in a Hazard"@en ;
-                                                  rdfs:label "Provided Too Late Potentially Hazardous Control Action"@en .
-
-
-###  http://www.owlsai.com/ontologies/stamp#ProvidedTooLongPotentiallyHazardousControlAction
-:ProvidedTooLongPotentiallyHazardousControlAction rdf:type owl:Class ;
-                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                             :TooLongControlAction
-                                                                                           ) ;
-                                                                        rdf:type owl:Class
-                                                                      ] ;
-                                                  rdfs:comment "A Control Action that requests some Actuation which if performed for the too long causes some Fluent to hold that holds in a Hazard"@en ;
-                                                  rdfs:label "Provided Too Long Potentially Hazardous Control Action"@en .
-
-
-###  http://www.owlsai.com/ontologies/stamp#ProvidedTooShortPotentiallyHazardousControlAction
-:ProvidedTooShortPotentiallyHazardousControlAction rdf:type owl:Class ;
-                                                   owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                              :TooShortControlAction
-                                                                                            ) ;
-                                                                         rdf:type owl:Class
-                                                                       ] ;
-                                                   rdfs:comment "A Control Action that requests some Actuation which if performed for the too short a duration causes some Fluent to hold that holds in a Hazard"@en ;
-                                                   rdfs:label "Provided Too Short Potentially Hazardous Control Action"@en .
-
-
-###  http://www.owlsai.com/ontologies/stamp#ProvidedTooSoonPotentiallyHazardousControlAction
-:ProvidedTooSoonPotentiallyHazardousControlAction rdf:type owl:Class ;
-                                                  owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                             :TooSoonControlAction
-                                                                                           ) ;
-                                                                        rdf:type owl:Class
-                                                                      ] ;
-                                                  rdfs:comment "A Control Action that requests some Actuation which if performed too soon causes some Fluent to hold that holds in a Hazard"@en ;
-                                                  rdfs:label "Provided Too Soon Potentially Hazardous Control Action"@en .
-
-
 ###  http://www.owlsai.com/ontologies/stamp#ProvidingPotentiallyHazardousControlAction
 :ProvidingPotentiallyHazardousControlAction rdf:type owl:Class ;
                                             rdfs:subClassOf :PotentiallyHazardousControlAction ,
@@ -319,6 +279,72 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                             ] ;
                                             rdfs:comment "A Control Action that requests some Actuation that causes some Fluent to hold that holds in a Hazard"@en ;
                                             rdfs:label "Providing Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingTooLatePotentiallyHazardousControlAction
+:ProvidingTooLatePotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                   owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                              :TooLateControlAction
+                                                                                            ) ;
+                                                                         rdf:type owl:Class
+                                                                       ] ;
+                                                   rdfs:comment "A Control Action that requests some Actuation which if performed too late causes some Fluent to hold that holds in a Hazard"@en ;
+                                                   rdfs:label "Provided Too Late Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingTooLongPotentiallyHazardousControlAction
+:ProvidingTooLongPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                   owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                              :TooLongControlAction
+                                                                                            ) ;
+                                                                         rdf:type owl:Class
+                                                                       ] ;
+                                                   rdfs:comment "A Control Action that requests some Actuation which if performed for the too long causes some Fluent to hold that holds in a Hazard"@en ;
+                                                   rdfs:label "Provided Too Long Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingTooShortPotentiallyHazardousControlAction
+:ProvidingTooShortPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                    owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                               :TooShortControlAction
+                                                                                             ) ;
+                                                                          rdf:type owl:Class
+                                                                        ] ;
+                                                    rdfs:comment "A Control Action that requests some Actuation which if performed for the too short a duration causes some Fluent to hold that holds in a Hazard"@en ;
+                                                    rdfs:label "Provided Too Short Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingTooSoonPotentiallyHazardousControlAction
+:ProvidingTooSoonPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                   owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                              :TooSoonControlAction
+                                                                                            ) ;
+                                                                         rdf:type owl:Class
+                                                                       ] ;
+                                                   rdfs:comment "A Control Action that requests some Actuation which if performed too soon causes some Fluent to hold that holds in a Hazard"@en ;
+                                                   rdfs:label "Provided Too Soon Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingWrongDurationPotentiallyHazardousControlAction
+:ProvidingWrongDurationPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                         owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                                    :WrongDurationControlAction
+                                                                                                  ) ;
+                                                                               rdf:type owl:Class
+                                                                             ] ;
+                                                         rdfs:comment "A Control Action that requests some Actuation which if performed for the wrong duration causes some Fluent to hold that holds in a Hazard"@en ;
+                                                         rdfs:label "Wrong Duration Potentially Hazardous Control Action"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#ProvidingWrongTimingPotentiallyHazardousControlAction
+:ProvidingWrongTimingPotentiallyHazardousControlAction rdf:type owl:Class ;
+                                                       owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
+                                                                                                  :WrongTimingControlAction
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ] ;
+                                                       rdfs:comment "A Control Action that requests some Actuation which if performed at the wrong time causes some Fluent to hold that holds in a Hazard"@en ;
+                                                       rdfs:label "Wrong Timing Potentially Hazardous Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#SafetyConstraintProcess
@@ -396,33 +422,11 @@ It is an process that has an effect that holds in a hazard."""@en ;
                             rdfs:label "Wrong Duration Control Action"@en .
 
 
-###  http://www.owlsai.com/ontologies/stamp#WrongDurationPotentiallyHazardousControlAction
-:WrongDurationPotentiallyHazardousControlAction rdf:type owl:Class ;
-                                                owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                           :WrongDurationControlAction
-                                                                                         ) ;
-                                                                      rdf:type owl:Class
-                                                                    ] ;
-                                                rdfs:comment "A Control Action that requests some Actuation which if performed for the wrong duration causes some Fluent to hold that holds in a Hazard"@en ;
-                                                rdfs:label "Wrong Duration Potentially Hazardous Control Action"@en .
-
-
 ###  http://www.owlsai.com/ontologies/stamp#WrongTimingControlAction
 :WrongTimingControlAction rdf:type owl:Class ;
                           rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
                           rdfs:comment "A Control Action that results in the actuation being provided at the incorrect time."@en ;
                           rdfs:label "Wrong Timing Control Action"@en .
-
-
-###  http://www.owlsai.com/ontologies/stamp#WrongTimingPotentiallyHazardousControlAction
-:WrongTimingPotentiallyHazardousControlAction rdf:type owl:Class ;
-                                              owl:equivalentClass [ owl:intersectionOf ( :ProvidingPotentiallyHazardousControlAction
-                                                                                         :WrongTimingControlAction
-                                                                                       ) ;
-                                                                    rdf:type owl:Class
-                                                                  ] ;
-                                              rdfs:comment "A Control Action that requests some Actuation which if performed at the wrong time causes some Fluent to hold that holds in a Hazard"@en ;
-                                              rdfs:label "Wrong Timing Potentially Hazardous Control Action"@en .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
