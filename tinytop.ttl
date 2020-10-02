@@ -5,273 +5,290 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.owlsai.com/ontologies/tinytop> .
 
-<http://www.owlsai.com/ontologies/tinytop> rdf:type owl:Ontology ;
-                                            <http://purl.org/dc/terms/abstract> "This tiny top ontology module is used to organise the terms for the STAMP ontology and to indicate how it may be aligned to one of the established top ontologies."@en ;
-                                            <http://purl.org/dc/terms/created> "2019-03-14" ;
-                                            <http://purl.org/dc/terms/creator> <http://www.paulbrownmagic.com/foaf#me> ;
-                                            <http://purl.org/dc/terms/license> "https://mit-license.org/"@en ;
-                                            <http://purl.org/dc/terms/title> "Tiny Top Ontology Module"@en ;
-                                            <http://purl.org/vocab/vann/preferredNamespacePrefix> "tiny"@en ;
-                                            <http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.owlsai/ontologies/tinytop#"@en ;
-                                            rdfs:comment "An tiny top ontology module."@en ;
-                                            owl:versionIRI "http://www.w3.org/2002/07/owl" ;
-                                            owl:versionInfo "1.0.0" .
+<http://www.owlsai.com/ontologies/tinytop> a owl:Ontology ;
+	<http://purl.org/dc/terms/abstract> "This tiny top ontology module is used to organise the terms for the STAMP ontology and to indicate how it may be aligned to one of the established top ontologies."@en ;
+	<http://purl.org/dc/terms/created> "2019-03-14" ;
+	<http://purl.org/dc/terms/creator> <http://www.paulbrownmagic.com/foaf#me> ;
+	<http://purl.org/dc/terms/license> "https://mit-license.org/"@en ;
+	<http://purl.org/dc/terms/title> "Tiny Top Ontology Module"@en ;
+	<http://purl.org/vocab/vann/preferredNamespacePrefix> "tiny"@en ;
+	<http://purl.org/vocab/vann/preferredNamespaceUri> "http://www.owlsai/ontologies/tinytop#"@en ;
+	rdfs:comment "An tiny top ontology module."@en ;
+	owl:versionIRI "http://www.w3.org/2002/07/owl" ;
+	owl:versionInfo "1.0.0" .
+# 
+# 
+# #################################################################
+# #
+# #    Annotation properties
+# #
+# #################################################################
+# 
+# 
+# http://purl.org/dc/terms/abstract
 
-#################################################################
-#    Annotation properties
-#################################################################
+<http://purl.org/dc/terms/abstract> a owl:AnnotationProperty .
+# 
+# http://purl.org/dc/terms/created
 
-###  http://purl.org/dc/terms/abstract
-<http://purl.org/dc/terms/abstract> rdf:type owl:AnnotationProperty .
+<http://purl.org/dc/terms/created> a owl:AnnotationProperty .
+# 
+# http://purl.org/dc/terms/creator
 
+<http://purl.org/dc/terms/creator> a owl:AnnotationProperty .
+# 
+# http://purl.org/dc/terms/license
 
-###  http://purl.org/dc/terms/created
-<http://purl.org/dc/terms/created> rdf:type owl:AnnotationProperty .
+<http://purl.org/dc/terms/license> a owl:AnnotationProperty .
+# 
+# http://purl.org/dc/terms/title
 
+<http://purl.org/dc/terms/title> a owl:AnnotationProperty .
+# 
+# http://purl.org/vocab/vann/preferredNamespacePrefix
 
-###  http://purl.org/dc/terms/creator
-<http://purl.org/dc/terms/creator> rdf:type owl:AnnotationProperty .
+<http://purl.org/vocab/vann/preferredNamespacePrefix> a owl:AnnotationProperty .
+# 
+# http://purl.org/vocab/vann/preferredNamespaceUri
 
+<http://purl.org/vocab/vann/preferredNamespaceUri> a owl:AnnotationProperty .
+# 
+# http://www.w3.org/2002/07/owl#versionIRI
 
-###  http://purl.org/dc/terms/license
-<http://purl.org/dc/terms/license> rdf:type owl:AnnotationProperty .
+owl:versionIRI a owl:AnnotationProperty .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Object Properties
+# #
+# #################################################################
+# 
+# 
+# http://www.owlsai.com/ontologies/tinytop#capabilityOf
 
+:capabilityOf a owl:ObjectProperty ;
+	owl:inverseOf :hasCapability ;
+	rdfs:domain :Capability ;
+	rdfs:range :Entity ;
+	rdfs:comment "Capability capabilityOf Entity means the Entity has that Capability, i.e. can realize it in a Process"@en ;
+	rdfs:label "capability of"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000092" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#hasCapability
 
-###  http://purl.org/dc/terms/title
-<http://purl.org/dc/terms/title> rdf:type owl:AnnotationProperty .
+:hasCapability a owl:ObjectProperty ;
+	rdfs:domain :Entity ;
+	rdfs:range :Capability ;
+	rdfs:comment "Entity hasCapability Capability means the Entity has that Capability, i.e. can realize it in a Process"@en ;
+	rdfs:label "has capability"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000091" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#hasDirectProcessPart
 
+:hasDirectProcessPart a owl:ObjectProperty ;
+	rdfs:subPropertyOf :hasProcessPart ;
+	owl:inverseOf :isDirectProcessPartOf ;
+	a owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "As per hasProcessPart but not transitive."@en ;
+	rdfs:label "has direct process part"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#hasParticipant
 
-###  http://purl.org/vocab/vann/preferredNamespacePrefix
-<http://purl.org/vocab/vann/preferredNamespacePrefix> rdf:type owl:AnnotationProperty .
+:hasParticipant a owl:ObjectProperty ;
+	owl:inverseOf :participatesIn ;
+	rdfs:domain :Process ;
+	rdfs:range :Entity ;
+	rdfs:comment "Process hasParticipant Entity means the Entity somehow participates in the Process"@en ;
+	rdfs:label "has participant"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000057" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#hasProcessPart
 
-
-###  http://purl.org/vocab/vann/preferredNamespaceUri
-<http://purl.org/vocab/vann/preferredNamespaceUri> rdf:type owl:AnnotationProperty .
-
-
-###  http://www.w3.org/2002/07/owl#versionIRI
-owl:versionIRI rdf:type owl:AnnotationProperty .
-
-
-#################################################################
-#    Object Properties
-#################################################################
-
-###  http://www.owlsai.com/ontologies/tinytop#capabilityOf
-:capabilityOf rdf:type owl:ObjectProperty ;
-              owl:inverseOf :hasCapability ;
-              rdfs:domain :Capability ;
-              rdfs:range :Entity ;
-              rdfs:comment "Capability capabilityOf Entity means the Entity has that Capability, i.e. can realize it in a Process"@en ;
-              rdfs:label "capability of"@en ;
-              rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000092" .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#hasCapability
-:hasCapability rdf:type owl:ObjectProperty ;
-               rdfs:domain :Entity ;
-               rdfs:range :Capability ;
-               rdfs:comment "Entity hasCapability Capability means the Entity has that Capability, i.e. can realize it in a Process"@en ;
-               rdfs:label "has capability"@en ;
-               rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000091" .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#hasDirectProcessPart
-:hasDirectProcessPart rdf:type owl:ObjectProperty ;
-                      rdfs:subPropertyOf :hasProcessPart ;
-                      owl:inverseOf :isDirectProcessPartOf ;
-                      rdf:type owl:AsymmetricProperty ,
-                               owl:IrreflexiveProperty ;
-                      rdfs:domain :Process ;
-                      rdfs:range :Process ;
-                      rdfs:comment "As per hasProcessPart but not transitive."@en .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#hasParticipant
-:hasParticipant rdf:type owl:ObjectProperty ;
-                owl:inverseOf :participatesIn ;
-                rdfs:domain :Process ;
-                rdfs:range :Entity ;
-                rdfs:comment "Process hasParticipant Entity means the Entity somehow participates in the Process"@en ;
-                rdfs:label "has participant"@en ;
-                rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000057" .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#hasProcessPart
-:hasProcessPart rdf:type owl:ObjectProperty ;
-                owl:inverseOf :isProcessPartOf ;
-                rdf:type owl:TransitiveProperty ;
-                rdfs:domain :Process ;
-                rdfs:range :Process ;
-                rdfs:comment """ProcessA hasProcessPart ProcessB means ProcessB occurs entirely within ProcessA as part of ProcessA
+:hasProcessPart a owl:ObjectProperty ;
+	owl:inverseOf :isProcessPartOf ;
+	a owl:TransitiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment """ProcessA hasProcessPart ProcessB means ProcessB occurs entirely within ProcessA as part of ProcessA
 
 \"[Used] to designate the features or phases of activities and processes [...] the activity-stage relationship is like the integral object-component relationship in that complex activities are structured by means of \"scripts\" which assign locations to particular subactivities or features [or Events], just as integral objects are made up of components.\"
 (Source: Winston, Chaffin, and Herrmann, 1987)
 
 e.g.
-    Shopping hasProcessPart Paying"""@en .
+    Shopping hasProcessPart Paying"""@en ;
+	rdfs:label "has process part"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#hasQuality
 
-
-###  http://www.owlsai.com/ontologies/tinytop#hasQuality
-:hasQuality rdf:type owl:ObjectProperty ;
-            owl:inverseOf :isQualityOf ;
-            rdfs:domain :Entity ;
-            rdfs:range :Quality ;
-            rdfs:comment """Entity hasQuality Quality means the Entity is described by that Quality.
+:hasQuality a owl:ObjectProperty ;
+	owl:inverseOf :isQualityOf ;
+	rdfs:domain :Entity ;
+	rdfs:range :Quality ;
+	rdfs:comment """Entity hasQuality Quality means the Entity is described by that Quality.
 
 e.g. Motor hasQuality PowerStatus means the Motor can be described in terms of the status of its power (i.e. motor with power on or with power off)"""@en ;
-            rdfs:label "has quality"@en ;
-            rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000086" .
+	rdfs:label "has quality"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000086" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#immediatelyPrecedes
 
+:immediatelyPrecedes a owl:ObjectProperty ;
+	rdfs:subPropertyOf :precedes ;
+	owl:inverseOf :isImmediatelyPrecededBy ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "P1 immediatelyPrecedes P2 means P1 occurs before P2 and no other process occurs between them" ;
+	rdfs:label "immediately precedes"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#informedBy
 
-###  http://www.owlsai.com/ontologies/tinytop#immediatelyPrecedes
-:immediatelyPrecedes rdf:type owl:ObjectProperty ;
-                     rdfs:subPropertyOf :precedes ;
-                     owl:inverseOf :isImmediatelyPrecededBy ;
-                     rdfs:domain :Process ;
-                     rdfs:range :Process ;
-                     rdfs:comment "P1 immediatelyPrecedes P2 means P1 occurs before P2 and no other process occurs between them" .
+:informedBy a owl:ObjectProperty ;
+	rdfs:domain :Entity ;
+	rdfs:range :InformationEntity ;
+	rdfs:comment "Entity informedBy InformationEntity means the Entity can make use of information recorded in the InformationEntity"@en ;
+	rdfs:label "informed by"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#isDirectProcessPartOf
 
+:isDirectProcessPartOf a owl:ObjectProperty ;
+	rdfs:subPropertyOf :isProcessPartOf ;
+	a owl:AsymmetricProperty , owl:IrreflexiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "As per isProcessPartOf but not transitive"@en ;
+	rdfs:label "is direct process part of"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#isImmediatelyPrecededBy
 
-###  http://www.owlsai.com/ontologies/tinytop#informedBy
-:informedBy rdf:type owl:ObjectProperty ;
-            rdfs:domain :Entity ;
-            rdfs:range :InformationEntity ;
-            rdfs:comment "Entity informedBy InformationEntity means the Entity can make use of information recorded in the InformationEntity"@en ;
-            rdfs:label "informed by"@en .
+:isImmediatelyPrecededBy a owl:ObjectProperty ;
+	rdfs:subPropertyOf :isPrecededBy ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "P1 isImmediatelyPrecededBy P2 means P2 occurs before P1 and no other process occurs between them" ;
+	rdfs:label "is immediately preceeded by"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#isPrecededBy
 
+:isPrecededBy a owl:ObjectProperty ;
+	owl:inverseOf :precedes ;
+	a owl:TransitiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "P1 isPrecededBy P2 means P2 occurs before P1"@en ;
+	rdfs:label "is preceeded by"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#isProcessPartOf
 
-###  http://www.owlsai.com/ontologies/tinytop#isDirectProcessPartOf
-:isDirectProcessPartOf rdf:type owl:ObjectProperty ;
-                       rdfs:subPropertyOf :isProcessPartOf ;
-                       rdf:type owl:AsymmetricProperty ,
-                                owl:IrreflexiveProperty ;
-                       rdfs:domain :Process ;
-                       rdfs:range :Process ;
-                       rdfs:comment "As per isProcessPartOf but not transitive"@en .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#isImmediatelyPrecededBy
-:isImmediatelyPrecededBy rdf:type owl:ObjectProperty ;
-                         rdfs:subPropertyOf :isPrecededBy ;
-                         rdfs:domain :Process ;
-                         rdfs:range :Process ;
-                         rdfs:comment "P1 isImmediatelyPrecededBy P2 means P2 occurs before P1 and no other process occurs between them" .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#isPrecededBy
-:isPrecededBy rdf:type owl:ObjectProperty ;
-              owl:inverseOf :precedes ;
-              rdf:type owl:TransitiveProperty ;
-              rdfs:domain :Process ;
-              rdfs:range :Process ;
-              rdfs:comment "P1 isPrecededBy P2 means P2 occurs before P1"@en .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#isProcessPartOf
-:isProcessPartOf rdf:type owl:ObjectProperty ,
-                          owl:TransitiveProperty ;
-                 rdfs:domain :Process ;
-                 rdfs:range :Process ;
-                 rdfs:comment """ProcessA isProcessPartOf ProcessB means ProcessA occurs entirely within ProcessB as part of ProcessB
+:isProcessPartOf a owl:ObjectProperty , owl:TransitiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment """ProcessA isProcessPartOf ProcessB means ProcessA occurs entirely within ProcessB as part of ProcessB
 
 \"[Used] to designate the features or phases of activities and processes [...] the activity-stage relationship is like the integral object-component relationship in that complex activities are structured by means of \"scripts\" which assign locations to particular subactivities or features [or Events], just as integral objects are made up of components.\"
 (Source: Winston, Chaffin, and Herrmann, 1987)
 
 e.g.
-    Paying isProcessPartOf Shopping"""@en .
+    Paying isProcessPartOf Shopping"""@en ;
+	rdfs:label "is process part of"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#isQualityOf
 
-
-###  http://www.owlsai.com/ontologies/tinytop#isQualityOf
-:isQualityOf rdf:type owl:ObjectProperty ;
-             rdfs:domain :Quality ;
-             rdfs:range :Entity ;
-             rdfs:comment """Property isQualityOf Thing means the Property describes that Thing.
+:isQualityOf a owl:ObjectProperty ;
+	rdfs:domain :Quality ;
+	rdfs:range :Entity ;
+	rdfs:comment """Property isQualityOf Thing means the Property describes that Thing.
 
 e.g. PowerStatus isQualityOf Motor means the Motor can be described in terms of the status of its power (i.e. motor with power on or with power off)"""@en ;
-             rdfs:label "is quality of"@en ;
-             rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000080" .
+	rdfs:label "is quality of"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000080" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#participatesIn
 
+:participatesIn a owl:ObjectProperty ;
+	rdfs:domain :Entity ;
+	rdfs:range :Process ;
+	rdfs:comment "Entity participatesIn Process means the Entity somehow participates in the Process"@en ;
+	rdfs:label "participates in"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000056" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#precedes
 
-###  http://www.owlsai.com/ontologies/tinytop#participatesIn
-:participatesIn rdf:type owl:ObjectProperty ;
-                rdfs:domain :Entity ;
-                rdfs:range :Process ;
-                rdfs:comment "Entity participatesIn Process means the Entity somehow participates in the Process"@en ;
-                rdfs:label "participates in"@en ;
-                rdfs:seeAlso "http://purl.obolibrary.org/obo/RO_0000056" .
+:precedes a owl:ObjectProperty , owl:TransitiveProperty ;
+	rdfs:domain :Process ;
+	rdfs:range :Process ;
+	rdfs:comment "P1 precedes P2 means P1 occurs before P2"@en ;
+	rdfs:label "precedes"@en .
+# 
+# 
+# 
+# #################################################################
+# #
+# #    Classes
+# #
+# #################################################################
+# 
+# 
+# http://www.owlsai.com/ontologies/tinytop#Capability
 
+:Capability a owl:Class ;
+	rdfs:subClassOf :Continuant ;
+	rdfs:comment "A Capability is an Entities ability to perform some action. It is distinct from the actual doing of the action, which would be a Process, instead it denotes that the Entity can do such an action."@en ;
+	rdfs:label "Capability"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000016" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#Continuant
 
-###  http://www.owlsai.com/ontologies/tinytop#precedes
-:precedes rdf:type owl:ObjectProperty ,
-                   owl:TransitiveProperty ;
-          rdfs:domain :Process ;
-          rdfs:range :Process ;
-          rdfs:comment "P1 precedes P2 means P1 occurs before P2"@en .
+:Continuant a owl:Class ;
+	owl:disjointWith :Occurant ;
+	rdfs:comment "A continuant is something that when it exists it exists in its entirety and continues to persist through time."@en ;
+	rdfs:label "Continuant"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#Entity
 
-
-#################################################################
-#    Classes
-#################################################################
-
-###  http://www.owlsai.com/ontologies/tinytop#Capability
-:Capability rdf:type owl:Class ;
-            rdfs:subClassOf :Continuant ;
-            rdfs:comment "A Capability is an Entities ability to perform some action. It is distinct from the actual doing of the action, which would be a Process, instead it denotes that the Entity can do such an action."@en ;
-            rdfs:label "Capability"@en ;
-            rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000016" .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#Continuant
-:Continuant rdf:type owl:Class ;
-            owl:disjointWith :Occurant ;
-            rdfs:comment "A continuant is something that when it exists it exists in its entirety and continues to persist through time."@en ;
-            rdfs:label "Continuant"@en .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#Entity
-:Entity rdf:type owl:Class ;
-        rdfs:subClassOf :Continuant ;
-        owl:disjointWith :Quality ;
-        rdfs:comment """An Entity is a continuant that is not dependent on any other thing for its existence.
+:Entity a owl:Class ;
+	rdfs:subClassOf :Continuant ;
+	owl:disjointWith :Quality ;
+	rdfs:comment """An Entity is a continuant that is not dependent on any other thing for its existence.
 
 In this application an Entity is used to describe the things that the system is comprised of, that interact with the system, and the system itself."""@en ;
-        rdfs:label "Entity"@en ;
-        rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000004" .
+	rdfs:label "Entity"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000004" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#InformationEntity
 
+:InformationEntity a owl:Class ;
+	rdfs:subClassOf :Continuant ;
+	rdfs:comment "An InformationEntity is a carrier for some particular information, such a book, an audio recording, or http packet."@en ;
+	rdfs:label "Information Entity"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/IAO_0000030"^^xsd:anyURI .
+# 
+# http://www.owlsai.com/ontologies/tinytop#Occurant
 
-###  http://www.owlsai.com/ontologies/tinytop#InformationEntity
-:InformationEntity rdf:type owl:Class ;
-                   rdfs:subClassOf :Continuant ;
-                   rdfs:comment "An InformationEntity is a carrier for some particular information, such a book, an audio recording, or http packet."@en ;
-                   rdfs:label "Information Entity"@en ;
-                   rdfs:seeAlso "http://purl.obolibrary.org/obo/IAO_0000030"^^xsd:anyURI .
+:Occurant a owl:Class ;
+	rdfs:comment "An Occurant is something that when it exisits it only exists in part at any particular part."@en ;
+	rdfs:label "Occurant"@en .
+# 
+# http://www.owlsai.com/ontologies/tinytop#Process
 
-
-###  http://www.owlsai.com/ontologies/tinytop#Occurant
-:Occurant rdf:type owl:Class ;
-          rdfs:comment "An Occurant is something that when it exisits it only exists in part at any particular part."@en ;
-          rdfs:label "Occurant"@en .
-
-
-###  http://www.owlsai.com/ontologies/tinytop#Process
-:Process rdf:type owl:Class ;
-         rdfs:subClassOf :Occurant ;
-         rdfs:comment """\"course of action or proceeding\" (Source: Pocket Oxford Dictionary, 1992)
+:Process a owl:Class ;
+	rdfs:subClassOf :Occurant ;
+	rdfs:comment """\"course of action or proceeding\" (Source: Pocket Oxford Dictionary, 1992)
 
 A sequence of events, including the empty sequence."""@en ;
-         rdfs:label "Process"@en ;
-         rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000015" .
+	rdfs:label "Process"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000015" .
+# 
+# http://www.owlsai.com/ontologies/tinytop#Quality
 
-
-###  http://www.owlsai.com/ontologies/tinytop#Quality
-:Quality rdf:type owl:Class ;
-         rdfs:subClassOf :Continuant ;
-         rdfs:comment "A descriptor of some attribute, quality or characteristic of some Entity"@en ;
-         rdfs:label "Quality"@en ;
-         rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000019" .
-
-
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+:Quality a owl:Class ;
+	rdfs:subClassOf :Continuant ;
+	rdfs:comment "A descriptor of some attribute, quality or characteristic of some Entity"@en ;
+	rdfs:label "Quality"@en ;
+	rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000019" .
+# 
+# Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

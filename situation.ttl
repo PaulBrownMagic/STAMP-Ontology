@@ -82,7 +82,8 @@ Capability hasEffect Fluent means the result or consequence of realizing the Cap
 
 Situation hasHolding Fluent means the Fluent is thought, believed and asserted to be true in the Situation.
 
-Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
+Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en ;
+	rdfs:label "has holding"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#hasPossible
 
@@ -93,14 +94,16 @@ Situation hasHolding Fluent means the same as Fluent holdsIn Situation."""@en .
 	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Capability> ;
 	rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
-Situation hasPossible Process means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
+Situation hasPossible Process means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en ;
+	rdfs:label "has possible"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#hasQualityInSomeSituation
 
 :hasQualityInSomeSituation a owl:ObjectProperty ;
 	rdfs:domain :Fluent ;
 	rdfs:range <http://www.owlsai.com/ontologies/tinytop#Quality> ;
-	rdfs:comment "Fluent hasQualityInSomeSituation Quality means that when the Fluent holds (is true), then the hasBearer of the Fluent has that Quality."@en .
+	rdfs:comment "Fluent hasQualityInSomeSituation Quality means that when the Fluent holds (is true), then the hasBearer of the Fluent has that Quality."@en ;
+	rdfs:label "has quality in some situation"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#hasResult
 
@@ -109,7 +112,8 @@ Situation hasPossible Process means the Process is capable of happening in the S
 	rdfs:range :Situation ;
 	rdfs:comment """\"consequence, issue or outcome of something\" (Source: Pocket Oxford Dictionary, 1992)
 
-Process hasResult Situation means that Process transitions to that Situation as a result of the events since S0."""@en .
+Process hasResult Situation means that Process transitions to that Situation as a result of the events since S0."""@en ;
+	rdfs:label "has result"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#holdsIn
 
@@ -148,7 +152,8 @@ Fluent isEffectedBy Capability means the result or consequence of realizing the 
 	rdfs:range :Situation ;
 	rdfs:comment """\"capable of happening, being done\" (Source: Pocket Oxford Dictionary, 1992)
 
-Process isPossibleIn Situation means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en .
+Process isPossibleIn Situation means the Process is capable of happening in the Situation. It does not mean that the process will happen, only that it is possible to happen."""@en ;
+	rdfs:label "is possible in"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#notHasHolding
 
