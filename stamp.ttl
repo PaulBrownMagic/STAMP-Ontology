@@ -77,7 +77,7 @@ ControlAction requestsEffect Fluent is an abstraction of ControlAction requests 
                 rdfs:comment """requestsPositiveEffect is an abstraction relation
 
 ControlAction requestsPositiveEffect Fluent is an abstraction for the ControlAction requesting a possibly undefined Actuator causing the Fluent to hold"""@en ;
-                rdfs:label "requests effect causing fluent to hold"@en .
+                rdfs:label "requests to hold"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#requestsToNotHold
@@ -91,7 +91,7 @@ ControlAction requestsPositiveEffect Fluent is an abstraction for the ControlAct
                    rdfs:comment """requestsNegativeEffect is an abstraction relation
 
 ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAction requesting a possibly undefined Actuator causing the Fluent to NOT hold"""@en ;
-                   rdfs:label "requests effect causing fluent to not hold"@en .
+                   rdfs:label "requests to not hold"@en .
 
 
 #################################################################
@@ -222,7 +222,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                          rdf:type owl:Class
                                                        ] ;
                                    rdfs:comment "The Control Action is Potentially Hazardous if Provided or Not Provided"@en ;
-                                   rdfs:label "PotentiallyHazardousControlAction"@en .
+                                   rdfs:label "Potentially Hazardous Control Action"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#PotentiallyHazardousProcess
