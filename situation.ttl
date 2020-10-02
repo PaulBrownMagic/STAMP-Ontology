@@ -185,7 +185,8 @@ Process isPossibleIn Situation means the Process is capable of happening in the 
 
 :Fluent a owl:Class ;
 	rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Continuant> ;
-	rdfs:comment "A fact that is true in some situation(s). (Relational Fluent)"@en .
+	rdfs:comment "A fact that is true in some situation(s). (Relational Fluent)"@en ;
+	rdfs:label "Fluent"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#QualityFluent
 
@@ -235,7 +236,8 @@ _:genid7 a owl:Restriction ;
 
 \"individuals having properties and standing in relations at various spatiotemporal locations\" (Source: Barwise and Perry, \"Situations and Attitudes\", 1983)
 
-An abstract situation, describes an abstract condition of the domain. A set of fluents that hold."""@en .
+An abstract situation, describes an abstract condition of the domain. A set of fluents that hold."""@en ;
+	rdfs:label "Situation"@en .
 # 
 # 
 # 
