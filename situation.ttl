@@ -219,7 +219,8 @@ _:genid2 rdf:rest rdf:nil .
 
 _:genid1 a owl:Class .
 
-:QualityFluent rdfs:comment "A Fluent relating a bearer to a quality in some situations"@en ;
+:QualityFluent rdfs:subClassOf :Fluent ;
+	rdfs:comment "A Fluent relating a bearer to a quality in some situations"@en ;
 	rdfs:label "Quality Fluent"@en .
 # 
 # http://www.owlsai.com/ontologies/situation#Situation

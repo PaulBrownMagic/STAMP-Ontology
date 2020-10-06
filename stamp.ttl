@@ -129,6 +129,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                             ) ;
                                          rdf:type owl:Class
                                        ] ;
+                   rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ;
                    rdfs:comment "ControlledProcess is an abstraction used to group together entities whose Fluents are considered relevant, that are not themselves controllers, and are the \"subjects of\" the controlled process."@en ;
                    rdfs:label "Controlled Process"@en .
 
@@ -143,6 +144,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                  ) ;
                               rdf:type owl:Class
                             ] ;
+        rdfs:subClassOf <http://www.owlsai.com/ontologies/situation#Situation> ;
         rdfs:comment "\"A situation in which it is possible for a loss to occur.\" (Source: STPA Handbook)"@en ;
         rdfs:label "Hazard"@en .
 
@@ -157,6 +159,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                            ) ;
                                         rdf:type owl:Class
                                       ] ;
+                  rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ;
                   rdfs:comment "A Process that results in a Hazard"@en ;
                   rdfs:label "Hazardous Process"@en .
 
@@ -221,6 +224,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                                             ) ;
                                                          rdf:type owl:Class
                                                        ] ;
+                                   rdfs:subClassOf <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
                                    rdfs:comment "The Control Action is Potentially Hazardous if Provided or Not Provided"@en ;
                                    rdfs:label "Potentially Hazardous Control Action"@en .
 
@@ -241,6 +245,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                                                                       ) ;
                                                    rdf:type owl:Class
                                                  ] ;
+                             rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ;
                              rdfs:comment """A Process that realizes some Capability that causes a Fluent to hold that holds in a Hazard Situation.
 
 It is an process that has an effect that holds in a hazard."""@en ;
@@ -288,6 +293,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                             ) ;
                                                                          rdf:type owl:Class
                                                                        ] ;
+                                                   rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                   :TooLateControlAction ;
                                                    rdfs:comment "A Control Action that requests some Actuation which if performed too late causes some Fluent to hold that holds in a Hazard"@en ;
                                                    rdfs:label "Provided Too Late Potentially Hazardous Control Action"@en .
 
@@ -299,6 +306,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                             ) ;
                                                                          rdf:type owl:Class
                                                                        ] ;
+                                                   rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                   :TooLongControlAction ;
                                                    rdfs:comment "A Control Action that requests some Actuation which if performed for the too long causes some Fluent to hold that holds in a Hazard"@en ;
                                                    rdfs:label "Provided Too Long Potentially Hazardous Control Action"@en .
 
@@ -310,6 +319,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                              ) ;
                                                                           rdf:type owl:Class
                                                                         ] ;
+                                                    rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                    :TooShortControlAction ;
                                                     rdfs:comment "A Control Action that requests some Actuation which if performed for the too short a duration causes some Fluent to hold that holds in a Hazard"@en ;
                                                     rdfs:label "Provided Too Short Potentially Hazardous Control Action"@en .
 
@@ -321,6 +332,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                             ) ;
                                                                          rdf:type owl:Class
                                                                        ] ;
+                                                   rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                   :TooSoonControlAction ;
                                                    rdfs:comment "A Control Action that requests some Actuation which if performed too soon causes some Fluent to hold that holds in a Hazard"@en ;
                                                    rdfs:label "Provided Too Soon Potentially Hazardous Control Action"@en .
 
@@ -332,6 +345,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                                   ) ;
                                                                                rdf:type owl:Class
                                                                              ] ;
+                                                         rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                         :WrongDurationControlAction ;
                                                          rdfs:comment "A Control Action that requests some Actuation which if performed for the wrong duration causes some Fluent to hold that holds in a Hazard"@en ;
                                                          rdfs:label "Wrong Duration Potentially Hazardous Control Action"@en .
 
@@ -343,6 +358,8 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                                                 ) ;
                                                                              rdf:type owl:Class
                                                                            ] ;
+                                                       rdfs:subClassOf :ProvidingPotentiallyHazardousControlAction ,
+                                                                       :WrongTimingControlAction ;
                                                        rdfs:comment "A Control Action that requests some Actuation which if performed at the wrong time causes some Fluent to hold that holds in a Hazard"@en ;
                                                        rdfs:label "Wrong Timing Potentially Hazardous Control Action"@en .
 
@@ -361,6 +378,7 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                   ) ;
                                                rdf:type owl:Class
                                              ] ;
+                         rdfs:subClassOf <http://www.owlsai.com/ontologies/tinytop#Process> ;
                          rdfs:comment "A Process that should be taken if it is possible to ensure safety"@en ;
                          rdfs:label "Safety Constraint Process"@en .
 
@@ -381,6 +399,7 @@ It is an process that has an effect that holds in a hazard."""@en ;
                                                                     ) ;
                                                  rdf:type owl:Class
                                                ] ;
+                           rdfs:subClassOf <http://www.owlsai.com/ontologies/situation#Situation> ;
                            rdfs:comment "A Situation in which some Hazard cannot also be."@en ;
                            rdfs:label "Safety Constraint Situation"@en .
 
