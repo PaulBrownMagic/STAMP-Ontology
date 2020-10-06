@@ -244,6 +244,7 @@ e.g. PowerStatus isQualityOf Motor means the Motor can be described in terms of 
 # http://www.owlsai.com/ontologies/tinytop#Continuant
 
 :Continuant a owl:Class ;
+	rdfs:subClassOf owl:Thing ;
 	owl:disjointWith :Occurant ;
 	rdfs:comment "A continuant is something that when it exists it exists in its entirety and continues to persist through time."@en ;
 	rdfs:label "Continuant"@en .
@@ -270,6 +271,7 @@ In this application an Entity is used to describe the things that the system is 
 # http://www.owlsai.com/ontologies/tinytop#Occurant
 
 :Occurant a owl:Class ;
+	rdfs:subClassOf owl:Thing ;
 	rdfs:comment "An Occurant is something that when it exisits it only exists in part at any particular part."@en ;
 	rdfs:label "Occurant"@en .
 # 
@@ -291,15 +293,7 @@ A sequence of events, including the empty sequence."""@en ;
 	rdfs:label "Quality"@en ;
 	rdfs:seeAlso "http://purl.obolibrary.org/obo/BFO_0000019" .
 # 
-# 
-# 
-# #################################################################
-# #
-# #    Annotations
-# #
-# #################################################################
-# 
-# 
+# http://www.w3.org/2002/07/owl#Thing
 
 owl:Thing rdfs:label "Thing"@en .
 # 
