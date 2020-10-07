@@ -29,7 +29,11 @@
 
 
 ###  http://www.owlsai.com/ontologies/stamp#constrains
-:constrains rdf:type owl:ObjectProperty .
+:constrains rdf:type owl:ObjectProperty ;
+            rdfs:domain :SafetyConstraintSituation ;
+            rdfs:range :Hazard ;
+            rdfs:comment "SafetyConstraintSituation constrains Hazard means the SafetyConstraintSituation is disjoint with the Hazard situation, i.e. if in the SafetyConstraintSituation then you cannot also be in that Hazard situation"@en ;
+            rdfs:label "constrains"@en .
 
 
 ###  http://www.owlsai.com/ontologies/stamp#hasSubject
@@ -145,6 +149,7 @@ ControlAction requestsNegativeEffect Fluent is an abstraction for the ControlAct
                               rdf:type owl:Class
                             ] ;
         rdfs:subClassOf <http://www.owlsai.com/ontologies/situation#Situation> ;
+        owl:disjointWith :SafetyConstraintSituation ;
         rdfs:comment "\"A situation in which it is possible for a loss to occur.\" (Source: STPA Handbook)"@en ;
         rdfs:label "Hazard"@en .
 
