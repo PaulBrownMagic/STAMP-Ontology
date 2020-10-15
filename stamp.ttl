@@ -44,6 +44,26 @@
             rdfs:label "has subject"@en .
 
 
+###  http://www.owlsai.com/ontologies/stamp#notProvidingPotentiallyLeadsTo
+:notProvidingPotentiallyLeadsTo rdf:type owl:ObjectProperty ;
+                                rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                                rdfs:range <http://www.owlsai.com/ontologies/situation#Situation> ;
+                                rdfs:comment """This is a STAMP abstraction used to link a Not Provided Potentially Hazardous Control Action to the Hazard it may lead to in the worst case scenario.
+
+It equates to the Control Action requesting some effect that in a certain Situation, and with successful exeution without intervention, interference or failure, would result in a Safety Constraint Situation, or exiting a Hazard Situation."""@en ;
+                                rdfs:label "if not provided could potentially lead too"@en .
+
+
+###  http://www.owlsai.com/ontologies/stamp#providingPotentiallyLeadsTo
+:providingPotentiallyLeadsTo rdf:type owl:ObjectProperty ;
+                             rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#ControlAction> ;
+                             rdfs:range <http://www.owlsai.com/ontologies/situation#Situation> ;
+                             rdfs:comment """This is a STAMP abstraction used to link a Provided Potentially Hazardous Control Action to the Hazard it may lead to in the worst case scenario.
+
+It equates to the Control Action requesting some effect that in a certain Situation, and with successful exeution without intervention, interference or failure, would result in the Hazard situation."""@en ;
+                             rdfs:label "if provided could potentially lead too"@en .
+
+
 ###  http://www.owlsai.com/ontologies/stamp#recordsFluent
 :recordsFluent rdf:type owl:ObjectProperty ;
                rdfs:domain <http://www.owlsai.com/ontologies/controlsystem#Feedback> ;
