@@ -1,4 +1,5 @@
 # STAMP Ontology
+[![DOI](https://zenodo.org/badge/485740035.svg)](https://zenodo.org/badge/latestdoi/485740035)
 
 This repository contains the OWL files for the STAMP Ontology.
 
